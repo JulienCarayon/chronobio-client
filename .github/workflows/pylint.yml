@@ -32,4 +32,6 @@ jobs:
         echo "LS : $(ls)"
     - name: Analysing the code with pylint
       run: |
+        echo "LS : $(ls)"
+        echo "PWD : $(pwd)"
         pylint $(git ls-files '*.py')
