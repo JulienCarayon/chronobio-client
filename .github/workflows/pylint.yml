@@ -9,6 +9,7 @@ jobs:
       matrix:
         python-version: ["3.9"]
     steps:
+    - uses: actions/checkout@v3
     - uses: actions/checkout@master
       with:
         repository: vpoulailleau/chronobio
