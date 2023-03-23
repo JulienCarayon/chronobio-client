@@ -9,9 +9,9 @@ jobs:
       matrix:
         python-version: ["3.9"]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@master
       with:
-        name: vpoulailleau/chronobio
+        repository: vpoulailleau/chronobio
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
