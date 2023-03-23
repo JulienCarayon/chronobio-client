@@ -10,14 +10,33 @@ jobs:
         python-version: ["3.9"]
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/checkout@master
+      with:
+        repository: vpoulailleau/chronobio
+        path: dependencies/chronobio
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+        
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pylint
+        echo "PWD : $(pwd)"
+        echo "LS : $(ls)"
+        echo "CP : $(cp -r dependencies/chronobio/chronobio aigrisculteurs/)"
+        sync
+        
+        echo "PWD : $(pwd)"
+        echo "LS : $(ls)"
     - name: Analysing the code with pylint
       run: |
+        #cd aigrisculteurs
+        #echo "LS : $(ls)"
+        #echo "PWD : $(pwd)"
+        #cd chronobio
+        #echo "LS : $(ls)"
+        #echo "PWD : $(pwd)"
         pylint $(git ls-files '*.py')
