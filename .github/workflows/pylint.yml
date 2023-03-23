@@ -36,4 +36,7 @@ jobs:
         cd aigrisculteurs
         echo "LS : $(ls)"
         echo "PWD : $(pwd)"
+        cd chronobio
+        echo "LS : $(ls)"
+        echo "PWD : $(pwd)"
         pylint $(git ls-files '*.py')
