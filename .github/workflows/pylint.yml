@@ -26,17 +26,17 @@ jobs:
         pip install pylint
         echo "PWD : $(pwd)"
         echo "LS : $(ls)"
-        echo "LN : $(ln -s dependencies/chronobio/chronobio aigrisculteurs/chronobio)"
+        echo "CP : $(cp -r dependencies/chronobio/chronobio aigrisculteurs/)"
         sync
         
         echo "PWD : $(pwd)"
         echo "LS : $(ls)"
     - name: Analysing the code with pylint
       run: |
-        cd aigrisculteurs
-        echo "LS : $(ls)"
-        echo "PWD : $(pwd)"
-        cd chronobio
-        echo "LS : $(ls)"
-        echo "PWD : $(pwd)"
+        #cd aigrisculteurs
+        #echo "LS : $(ls)"
+        #echo "PWD : $(pwd)"
+        #cd chronobio
+        #echo "LS : $(ls)"
+        #echo "PWD : $(pwd)"
         pylint $(git ls-files '*.py')
