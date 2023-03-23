@@ -7,6 +7,6 @@ Client for the Python game made by @vpoulailleau
 
 use a venv using : 
 ```
-python -m venv
+python -m venv venv
 ```
 
