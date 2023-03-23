@@ -1,4 +1,5 @@
 import argparse
+
 from typing import NoReturn
 
 from chronobio.network.client import Client
