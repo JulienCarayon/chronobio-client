@@ -27,11 +27,12 @@ jobs:
         echo "PWD : $(pwd)"
         echo "LS : $(ls)"
         ln -s dependencies/chronobio/chronobio aigrisculteurs/chronobio
-        cd aigrisculteurs
+        
         echo "PWD : $(pwd)"
         echo "LS : $(ls)"
     - name: Analysing the code with pylint
       run: |
+        cd aigrisculteurs
         echo "LS : $(ls)"
         echo "PWD : $(pwd)"
         pylint $(git ls-files '*.py')
