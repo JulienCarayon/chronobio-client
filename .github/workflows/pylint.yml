@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@master
       with:
         repository: vpoulailleau/chronobio
-        path: dependencies/chronobio
+        path-to-clone: dependencies/chronobio
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
