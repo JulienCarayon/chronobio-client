@@ -26,7 +26,7 @@ jobs:
         pip install pylint
         echo "PWD : $(pwd)"
         echo "LS : $(ls)"
-        echo "LN : $(ln -s dependencies/chronobio/chronobio aigrisculteurs/)"
+        echo "LN : $(ln -s dependencies/chronobio/chronobio aigrisculteurs/chronobio)"
         sync
         
         echo "PWD : $(pwd)"
