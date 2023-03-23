@@ -26,7 +26,8 @@ jobs:
         pip install pylint
         echo "PWD : $(pwd)"
         echo "LS : $(ls)"
-        cd ..
+        ln -s dependencies/chronobio/chronobio aigrisculteurs/chronobio/
+        cd aigrisculteurs
         echo "PWD : $(pwd)"
         echo "LS : $(ls)"
     - name: Analysing the code with pylint
