@@ -1,0 +1,3 @@
+[submodule "aigrisculteurs/chronobio"]
+	path = aigrisculteurs/chronobio
+	url = git@github.com:vpoulailleau/chronobio.git
