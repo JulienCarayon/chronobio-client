@@ -25,7 +25,9 @@ jobs:
         pip install pylint
         echo "PWD : $(pwd)"
         echo "LS : $(ls)"
-        cd aigrisculteurs
+        cd ..
+        echo "PWD : $(pwd)"
+        echo "LS : $(ls)"
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
