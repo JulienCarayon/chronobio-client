@@ -7,7 +7,7 @@ from chronobio.network.client import Client
 
 class PlayerGameClient(Client):
     def __init__(
-        self: "PlayerGameClient", server_addr: str, port: int, username: str pihpdfhdpfhdfhpqdfhqpsdfhqspdfhqpodfhqpdfhqpodfhpqiosqhqhfpqhiofphqpfdhpqfhpioqshdfphdfpidfpihpidfhqpoisdhfiopqshdfpiohqsdpoifhqpoisdfhpoiqshdfiopqshdfpoiqhsdfpoihsdpfioqsipodfpoiqdfhpoiqshdfpoihqsdopifhqspoidfhpoidhfpoifioqhsdpofi
+        self: "PlayerGameClient", server_addr: str, port: int, username: str
     ) -> None:
         super().__init__(server_addr, port, username, spectator=False)
         self._commands: list[str] = []
