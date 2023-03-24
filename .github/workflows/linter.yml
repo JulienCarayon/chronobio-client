@@ -1,40 +1,28 @@
-name: Lint
+name: flake8 Lint
 
-on: [push]
-#  paths:
- #   - '*.py'
+on: [push, pull_request]
 
 jobs:
-  build:
+  flake8-lint:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.9"]
+    name: Lint
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/checkout@master
-      with:
-        repository: vpoulailleau/chronobio
-        path: dependencies/chronobio
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-        
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8
-        echo "PWD : $(pwd)"
-        echo "LS : $(ls)"
-        echo "CP : $(cp -r dependencies/chronobio/chronobio aigrisculteurs/)"
-        sync
-        
-        echo "PWD : $(pwd)"
-        echo "LS : $(ls)"
-    - name: Run flake8
-      uses: suo/flake8-github-action@releases/v1
-      with:
-        checkName: 'build'   # NOTE: this needs to be the same as the job name
-       
+      - name: Check out source repository
+        uses: actions/checkout@v3
+      #- name: Init/Update submodules
+      #  run:
+      #    git submodule init
+      #    git submodule update --init --recursive
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2
+        with:
+          ignore: "F401"
+          exclude: "src/ignoreme.py"
+          max-line-length: "100"
+          path: "src"
+          plugins: "flake8-bugbear==22.1.11 flake8-black"
