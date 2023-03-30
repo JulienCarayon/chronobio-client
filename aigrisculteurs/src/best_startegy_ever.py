@@ -31,9 +31,9 @@ class Aigrisculteurs:
             if farm["name"] == my_farm_name:
                 self.my_farm = farm
                 break
-            else:
-                print("error")
-                raise ValueError(f"My farm is not found ({self.username})")
+        else:
+            print("error")
+            raise ValueError(f"My farm is not found ({self.username})")
 
     def run(self, game_data):
         logging.info('run')
