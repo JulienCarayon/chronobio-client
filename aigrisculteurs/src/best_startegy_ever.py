@@ -70,7 +70,6 @@ class Aigrisculteurs:
         except Exception:
             logging.exception("Oups")
 
-
     def buy_fields(self, number_of_fields_to_buy):
         if (number_of_fields_to_buy > MAXIMUM_FIELDS_NUMBER) or \
                 (self.number_of_fields + number_of_fields_to_buy

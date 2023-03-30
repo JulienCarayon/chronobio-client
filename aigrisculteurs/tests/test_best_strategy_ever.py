@@ -6,10 +6,11 @@ import pytest
 def aigrisculteurs():
     return Aigrisculteurs()
 
+
 def verify_answer(expected, answer):
     assert expected == answer
-    
-    
+
+
 def test_hiring_workers(aigrisculteurs):
     aigrisculteurs.hiring_workers(10)
     assert (aigrisculteurs.actual_number_of_workers) == 10
@@ -58,6 +59,4 @@ def test_do_bank_loan(aigrisculteurs):
 def test_worker_daily_task_new_day(aigrisculteurs):
     aigrisculteurs.hiring_workers(10)
     aigrisculteurs.worker_daily_task_new_day()
-
     assert (aigrisculteurs.worker_daily_task["worker1"]) == "None"
-
