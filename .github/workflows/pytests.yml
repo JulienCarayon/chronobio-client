@@ -1,12 +1,12 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Linting with flake8
+name: Runing pytest
 
 on: [pull_request]
 
 jobs:
-  linter_and_tests:
+  run_tests:
 
     runs-on: ubuntu-latest
 
@@ -23,6 +23,6 @@ jobs:
     - name: Install dependencies for testing
       run: |
         if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
-    - name: Lint with flake8
+    - name: Test with pytest
       run: |
-        flake8 . --count --max-complexity=10 --max-line-length=88 --statistics
+        pytest --cov=aigrisculteurs --cov-branch --cov-report html

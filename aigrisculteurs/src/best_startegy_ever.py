@@ -7,7 +7,7 @@ logging.basicConfig(
     filename="aigrisculteurs.log",
     encoding="utf-8",
     level=logging.INFO,
-    format="%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: %(message)s",
+    format="%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: %(message)s",  # noqa: E501
     datefmt="%m/%d/%Y %H:%M:%S")
 
 
@@ -113,7 +113,7 @@ class Aigrisculteurs:
                 workers_id_available.append(worker)
             elif self.worker_daily_task.get(f'worker{worker}') != "None":
                 logging.info(
-                    f"/!\ worker{worker} already done his daily task !")
+                    f"/!\\ worker{worker} already done his daily task !")
         return workers_id_available
 
     def field_need_water(self, field_id):
