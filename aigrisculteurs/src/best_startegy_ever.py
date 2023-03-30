@@ -1,5 +1,6 @@
 import logging
 
+
 from src.constants import MAXIMUM_FIELDS_NUMBER, LOCATION, FIELDS, NEEDED_WATER, WORKERS
 
 logging.basicConfig(
