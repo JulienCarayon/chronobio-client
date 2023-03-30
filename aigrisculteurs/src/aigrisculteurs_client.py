@@ -1,8 +1,8 @@
 import argparse
-
 from typing import NoReturn
 
 from chronobio.network.client import Client
+from best_startegy_ever import Aigrisculteurs
 
 
 class PlayerGameClient(Client):
@@ -11,28 +11,20 @@ class PlayerGameClient(Client):
     ) -> None:
         super().__init__(server_addr, port, username, spectator=False)
         self._commands: list[str] = []
+        self.aigrisculteurs = Aigrisculteurs()
 
     def run(self: "PlayerGameClient") -> NoReturn:
         while True:
             game_data = self.read_json()
+            self.aigrisculteurs.run(game_data)
             for farm in game_data["farms"]:
                 if farm["name"] == self.username:
                     my_farm = farm
                     break
             else:
+                print("error")
                 raise ValueError(f"My farm is not found ({self.username})")
             print(my_farm)
-
-            if game_data["day"] == 0:
-                self.add_command("0 EMPRUNTER 100000")
-                self.add_command("0 ACHETER_CHAMP")
-                self.add_command("0 ACHETER_CHAMP")
-                self.add_command("0 ACHETER_CHAMP")
-                self.add_command("0 ACHETER_TRACTEUR")
-                self.add_command("0 ACHETER_TRACTEUR")
-                self.add_command("0 EMPLOYER")
-                self.add_command("0 EMPLOYER")
-                self.add_command("1 SEMER PATATE 3")
 
             self.send_commands()
 
@@ -40,10 +32,10 @@ class PlayerGameClient(Client):
         self._commands.append(command)
 
     def send_commands(self: "PlayerGameClient") -> None:
-        data = {"commands": self._commands}
+        data = {"commands": self.aigrisculteurs.aigrisculteurs_commands}
         print("sending", data)
         self.send_json(data)
-        self._commands.clear()
+        self.aigrisculteurs.aigrisculteurs_commands.clear()
 
 
 if __name__ == "__main__":
