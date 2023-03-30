@@ -4,9 +4,9 @@ import logging
 from src.constants import MAXIMUM_FIELDS_NUMBER, LOCATION, FIELDS, NEEDED_WATER, WORKERS
 
 logging.basicConfig(
-    filename="aigrisculteurs.log",
+    filename="../aigrisculteurs.log",
     encoding="utf-8",
-    level=logging.INFO,
+    level=logging.DEBUG,
     format="%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: %(message)s",  # noqa: E501
     datefmt="%m/%d/%Y %H:%M:%S")
 
@@ -26,6 +26,7 @@ class Aigrisculteurs:
         self.list_of_fiels = []
 
     def get_my_farm_json(self, my_farm_name="aigrisculteurs"):
+        logging.info('get_my_farm_json')
         for farm in self.game_data["farms"]:
             if farm["name"] == my_farm_name:
                 self.my_farm = farm
@@ -35,14 +36,15 @@ class Aigrisculteurs:
                 raise ValueError(f"My farm is not found ({self.username})")
 
     def run(self, game_data):
+        logging.info('run')
         self.game_data = game_data
         self.get_my_farm_json()
 
         if self.game_data["day"] == 0:
-            self.i_need_money(10000000)
+            self.do_bank_loan(100000)
             self.buy_fields(5)
             self.buy_tactors(2)
-            self.hiring_workers(15)
+            self.hiring_workers(24)
             self.worker_sow_vegetable_at_field(1, "TOMATE", 1)
             self.worker_sow_vegetable_at_field(2, "PATATE", 2)
             self.worker_sow_vegetable_at_field(3, "COURGETTE", 3)
@@ -82,7 +84,7 @@ class Aigrisculteurs:
             self.actual_number_of_tractors += 1
             number_of_tractors_to_buy -= 1
 
-    def i_need_money(self, money):
+    def do_bank_loan(self, money):
         self.add_command(f"0 EMPRUNTER {money}")
 
     def hiring_workers(self, numbort_of_workers_to_hire):
