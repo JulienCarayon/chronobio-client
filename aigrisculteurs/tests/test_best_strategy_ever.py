@@ -17,6 +17,14 @@ def test_hiring_workers(aigrisculteurs):
     assert (aigrisculteurs.worker_daily_task["worker100"]) == "None"
 
 
+def test_hiring_workers(aigrisculteurs):
+    aigrisculteurs.hiring_workers(10)
+    assert (aigrisculteurs.actual_number_of_workers) == 10
+    aigrisculteurs.hiring_workers(90)
+    assert (aigrisculteurs.actual_number_of_workers) == 100
+    assert (aigrisculteurs.worker_daily_task["worker100"]) == "None"
+
+
 def test_buy_fields(aigrisculteurs):
     aigrisculteurs.buy_fields(2)
     assert (aigrisculteurs.number_of_fields) == 2
@@ -50,4 +58,3 @@ def test_worker_daily_task_new_day(aigrisculteurs):
     aigrisculteurs.hiring_workers(10)
     aigrisculteurs.worker_daily_task_new_day()
     assert (aigrisculteurs.worker_daily_task["worker1"]) == "None"
-
