@@ -6,7 +6,7 @@ logging.basicConfig(
     filename="aigrisculteurs.log",
     encoding="utf-8",
     level=logging.INFO,
-    format="%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: %(message)s",
+    format="%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: %(message)s", #noqa: E501
     datefmt="%m/%d/%Y %H:%M:%S")
 
 
