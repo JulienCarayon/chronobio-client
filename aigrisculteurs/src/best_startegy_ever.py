@@ -77,11 +77,10 @@ class Aigrisculteurs:
             self.number_of_fields += 1
 
     def buy_tactors(self, number_of_tractors_to_buy):
-        initial_nb_of_tractors = self.actual_number_of_tractors
-        while self.actual_number_of_tractors < \
-                (initial_nb_of_tractors + number_of_tractors_to_buy):
+        while (number_of_tractors_to_buy):
             self.add_command("0 ACHETER_TRACTEUR")
             self.actual_number_of_tractors += 1
+            number_of_tractors_to_buy -= 1
 
     def i_need_money(self, money):
         self.add_command(f"0 EMPRUNTER {money}")
