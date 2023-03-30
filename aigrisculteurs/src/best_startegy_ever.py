@@ -26,46 +26,49 @@ class Aigrisculteurs:
         self.list_of_fiels = []
 
     def get_my_farm_json(self, my_farm_name="aigrisculteurs"):
-        logging.info('get_my_farm_json')
+
         for farm in self.game_data["farms"]:
             if farm["name"] == my_farm_name:
                 self.my_farm = farm
                 break
-            else:
-                print("error")
-                raise ValueError(f"My farm is not found ({self.username})")
+        else:
+            print("error")
+            raise ValueError(f"My farm is not found ({self.username})")
 
     def run(self, game_data):
-        logging.info('run')
-        self.game_data = game_data
-        self.get_my_farm_json()
 
-        if self.game_data["day"] == 0:
-            self.do_bank_loan(100000)
-            self.buy_fields(5)
-            self.buy_tactors(2)
-            self.hiring_workers(24)
-            self.worker_sow_vegetable_at_field(1, "TOMATE", 1)
-            self.worker_sow_vegetable_at_field(2, "PATATE", 2)
-            self.worker_sow_vegetable_at_field(3, "COURGETTE", 3)
-            self.worker_sow_vegetable_at_field(4, "OIGNON", 4)
-            self.worker_sow_vegetable_at_field(5, "POIREAU", 5)
+        try:
+            self.game_data = game_data
+            self.get_my_farm_json()
 
-        if self.game_data["day"] > 7:
-            self.buy_tactors(10)
-            for field_id in range(1, MAXIMUM_FIELDS_NUMBER + 1):
-                logging.info(field_id)
-                self.field_need_water(field_id)
+            if self.game_data["day"] == 0:
+                self.do_bank_loan(100000)
+                self.buy_fields(5)
+                self.buy_tactors(2)
+                self.hiring_workers(24)
+                self.worker_sow_vegetable_at_field(1, "TOMATE", 1)
+                self.worker_sow_vegetable_at_field(2, "PATATE", 2)
+                self.worker_sow_vegetable_at_field(3, "COURGETTE", 3)
+                self.worker_sow_vegetable_at_field(4, "OIGNON", 4)
+                self.worker_sow_vegetable_at_field(5, "POIREAU", 5)
 
-        if self.game_data["day"] == 20:
-            # {OUVRIER} STOCKER {CHAMP} {TRACTEUR}
-            self.add_command("10 STOCKER 5 1")
+            if self.game_data["day"] > 7:
+                self.buy_tactors(10)
+                for field_id in range(1, MAXIMUM_FIELDS_NUMBER + 1):
+                    logging.info(field_id)
+                    self.field_need_water(field_id)
 
-        if self.game_data["day"] == 30:
-            # {OUVRIER} STOCKER {CHAMP} {TRACTEUR}
-            self.add_command("10 STOCKER 3 1")
+            if self.game_data["day"] == 20:
+                # {OUVRIER} STOCKER {CHAMP} {TRACTEUR}
+                self.add_command("10 STOCKER 5 1")
 
-        # self.worker_daily_task_new_day()
+            if self.game_data["day"] == 30:
+                # {OUVRIER} STOCKER {CHAMP} {TRACTEUR}
+                self.add_command("10 STOCKER 3 1")
+
+            # self.worker_daily_task_new_day()
+        except Exception:
+            logging.exception("Oups")
 
     def buy_fields(self, number_of_fields_to_buy):
         if (number_of_fields_to_buy > MAXIMUM_FIELDS_NUMBER) or \
