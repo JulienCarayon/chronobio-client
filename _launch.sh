@@ -7,8 +7,8 @@ if [ -d "$FILE" ]; then
     echo "chronobio symlink exists, deleting"
     rm -rf $FILE
 fi
-ln -s -r dependencies/chronobio/chronobio aigrisculteurs/chronobio #Create a symlink to prevent useless folder redundency.
+ln -s -r dependencies/chronobio/chronobio aigrisculteurs/src/chronobio #Create a symlink to prevent useless folder redundency.
 
 
 
-python3 aigrisculteurs/aigrisculteurs_client.py -a 127.0.0.1 -p $1 -u aigrisculteurs
+python3 aigrisculteurs/src/aigrisculteurs_client.py -a 127.0.0.1 -p $1 -u aigrisculteurs
