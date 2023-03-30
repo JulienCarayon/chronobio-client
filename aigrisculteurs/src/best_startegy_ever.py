@@ -112,7 +112,7 @@ class Aigrisculteurs:
                 workers_id_available.append(worker)
             elif self.worker_daily_task.get(f'worker{worker}') != "None":
                 logging.info(
-                    f"/!\ worker{worker} already done his daily task !")
+                    f"/!\\ worker{worker} already done his daily task !")
         return workers_id_available
 
     def field_need_water(self, field_id):
