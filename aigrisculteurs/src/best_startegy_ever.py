@@ -36,6 +36,7 @@ class Aigrisculteurs:
             raise ValueError(f"My farm is not found ({self.username})")
 
     def run(self, game_data):
+
         try:
             self.game_data = game_data
             self.get_my_farm_json()
@@ -68,6 +69,7 @@ class Aigrisculteurs:
             # self.worker_daily_task_new_day()
         except Exception:
             logging.exception("Oups")
+
 
     def buy_fields(self, number_of_fields_to_buy):
         if (number_of_fields_to_buy > MAXIMUM_FIELDS_NUMBER) or \
