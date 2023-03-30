@@ -1,0 +1,7 @@
+# pyproject.toml
+[tool.pytest.ini_options]
+minversion = "7.2.2"
+addopts = "--cov=src --cov-branch --cov-report html"
+testpaths = [
+    "aigrisculteurs/tests"
+]
