@@ -3,7 +3,7 @@
 
 name: Linting with flake8
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   linter_and_tests:
