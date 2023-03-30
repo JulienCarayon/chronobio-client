@@ -122,9 +122,9 @@ class Aigrisculteurs:
         if self.my_farm[FIELDS][field_id - 1][NEEDED_WATER] != 0:
             workers_id_available = self.worker_daily_task_state()
             for worker_id in workers_id_available:
-                if self.my_farm[WORKERS][worker_id - 1][LOCATION] == self.my_farm[FIELDS][field_id - 1][LOCATION]:
+                if self.my_farm[WORKERS][worker_id - 1][LOCATION] == self.my_farm[FIELDS][field_id - 1][LOCATION]:  # noqa: E501
                     logging.info(
-                        f"worker {self.my_farm[WORKERS][worker_id]['id']}  at  {self.my_farm[WORKERS][worker_id][LOCATION]}")
+                        f"worker {self.my_farm[WORKERS][worker_id]['id']}  at  {self.my_farm[WORKERS][worker_id][LOCATION]}")   # noqa: E501
                     logging.info(
                         f"field : {self.my_farm[FIELDS][field_id - 1][LOCATION]}")
                     self.water_field(worker_id, field_id)
@@ -139,8 +139,8 @@ class Aigrisculteurs:
         pass
 
     def add_value_to_dict(self, dict_key, dict_value, type_value):
-        # dict_key = key - self.worker_daily_task = dict - dict_value = value - i = type value
-        # si le dictionnaire 'self.worker_daily_task' contient la clé 'dict_key'
+        # dict_key = key - self.worker_daily_task = dict - dict_value = value - i = type value  # noqa: E501
+        # si le dictionnaire 'self.worker_daily_task' contient la clé 'dict_key'    # noqa: E501
         # on récupère la valeur
         if dict_key in self.worker_daily_task:
             type_value = self.worker_daily_task[dict_key]
@@ -157,7 +157,7 @@ class Aigrisculteurs:
         elif isinstance(type_value, float):
             type_value += float(dict_value)
 
-        # on met à jour l'objet 'type_value' pour la clé 'dict_key' dans le dictionnaire 'self.worker_daily_task'
+        # on met à jour l'objet 'type_value' pour la clé 'dict_key' dans le dictionnaire 'self.worker_daily_task' # noqa: E501
         self.worker_daily_task[dict_key] = type_value
 
     def add_command(self, command: str) -> None:
