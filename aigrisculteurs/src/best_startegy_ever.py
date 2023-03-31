@@ -39,6 +39,7 @@ class Aigrisculteurs:
         self.worker_daily_task = {}
         self.number_of_fields = 0
         self.list_of_fiels = []
+        self.tractor_worker_pairs = {}
 
     def get_my_farm_json(self, my_farm_name="aigrisculteurs"):
 
@@ -60,6 +61,12 @@ class Aigrisculteurs:
                 self.buy_fields(5)
                 self.buy_tractors(4)
                 self.hiring_workers(37)
+                logging.warning(f"Worker 1 availability : {self.check_worker_availability(1)}")
+                self.send_worker_to_place(1,1)
+                # self.send_group_to_place(1,34,1)
+                # self.send_worker_to_place(1,)
+
+                
 
             #     self.worker_sow_vegetable_at_field(1, TOMATO[1], 1)
             #     self.worker_sow_vegetable_at_field(2, POTATO[1], 2)
@@ -156,9 +163,9 @@ class Aigrisculteurs:
         if worker_availability and worker_id <= self.actual_number_of_workers:
             return True
         else:
-            logging.debug(f"Prevented {worker_id} from doing multiple tasks : {self.worker_daily_task[f'worker{worker_id}']}")  # noqa: E501
+            logging.warning(f"Prevented {worker_id} from doing multiple tasks : {self.worker_daily_task[f'worker{worker_id}']}")  # noqa: E501
             return False
-
+    
     def send_worker_to_place(self, worker_id, place, tractor_id=None, field_to_collect=None):   # noqa: E501
         if place == FACTORY_SOUPE:
             self.worker_creating_soup_at_FACTORY_SOUPE(worker_id)
@@ -172,25 +179,32 @@ class Aigrisculteurs:
                 self.seed_less_stocked_vegetable(worker_id, int(place))
         else:
             logging.error("Unknown place")
+            
+    def send_group_to_place(self,workers_id_start,workers_id_length, place):
+        for worker in range (workers_id_start,workers_id_start+workers_id_length):
+            self.send_worker_to_place(worker, place)
 
     def seed_less_stocked_vegetable(self, worker_id, field_id):
         less_stocked_vegetables = self.get_less_stocked_vegetable()
+        logging.warning(f"SAWN VEGETABLE  : <{less_stocked_vegetables}>")
         self.worker_sow_vegetable_at_field(worker_id, less_stocked_vegetables, field_id)    # noqa: E501
 
     def worker_sow_vegetable_at_field(self, worker_id, vegetable, field_id):
         worker_available = self.check_worker_availability(worker_id) is True
-
-        if vegetable in self.vegetable_list and worker_available is True:
-            self.add_command(f"{worker_id} SEMER {vegetable} {field_id}")
-            self.worker_daily_task[f"worker{worker_id}"] = "SEMER"
-        else:
-            logging.error(f"{vegetable} not in vegetable list")
+        if worker_available:
+            if vegetable in self.vegetable_list:
+                self.add_command(f"{worker_id} SEMER {vegetable} {field_id}")
+                self.worker_daily_task[f"worker{worker_id}"] = "SEMER"
+            else:
+                logging.error(f"{vegetable} not in vegetable list")
+        
 
     def store_with_tractor(self, worker_id, tractor_id, field_id):
         worker_available = self.check_worker_availability(worker_id) is True
         tractor_available = tractor_id <= self.actual_number_of_tractors
         field_collectable = self.check_if_field_collectable(field_id)
         if worker_available and tractor_available and field_collectable:
+            self.tractor_worker_pairs[tractor_id] = worker_id
             self.add_command(f"{worker_id} STOCKER {field_id} {tractor_id}")
 
     def worker_creating_soup_at_FACTORY_SOUPE(self, worker_id):
