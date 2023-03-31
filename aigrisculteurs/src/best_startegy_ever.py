@@ -1,7 +1,19 @@
 import logging
 
 
-from src.constants import *
+from src.constants import (
+                            MAXIMUM_FIELDS_NUMBER,
+                            WORKERS,
+                            LOCATION,
+                            FIELDS,
+                            NEEDED_WATER,
+                            FACTORY,
+                            STOCK,
+                            POTATO,
+                            LEEK,
+                            TOMATO,
+                            ONION,
+                            ZUCCHINI)
 
 logging.basicConfig(
     filename="../aigrisculteurs.log",
@@ -46,11 +58,11 @@ class Aigrisculteurs:
                 self.buy_fields(5)
                 self.buy_tactors(2)
                 self.hiring_workers(24)
-                self.worker_sow_vegetable_at_field(1, "TOMATE", 1)
-                self.worker_sow_vegetable_at_field(2, "PATATE", 2)
-                self.worker_sow_vegetable_at_field(3, "COURGETTE", 3)
-                self.worker_sow_vegetable_at_field(4, "OIGNON", 4)
-                self.worker_sow_vegetable_at_field(5, "POIREAU", 5)
+                self.worker_sow_vegetable_at_field(1, TOMATO[1], 1)
+                self.worker_sow_vegetable_at_field(2, POTATO[1], 2)
+                self.worker_sow_vegetable_at_field(3, LEEK[1], 3)
+                self.worker_sow_vegetable_at_field(4, ZUCCHINI[1], 4)
+                self.worker_sow_vegetable_at_field(5, ONION[1], 5)
 
             if self.game_data["day"] > 7:
                 self.buy_tactors(10)
@@ -70,15 +82,15 @@ class Aigrisculteurs:
         except Exception:
             logging.exception("Oups")
 
-    def buy_fields(self, number_of_fields_to_buy):
-        if (number_of_fields_to_buy > MAXIMUM_FIELDS_NUMBER) or \
-                (self.number_of_fields + number_of_fields_to_buy
+    def buy_fields(self, n_fields_to_buy):
+        if (n_fields_to_buy > MAXIMUM_FIELDS_NUMBER) or \
+                (self.number_of_fields + n_fields_to_buy
                     > MAXIMUM_FIELDS_NUMBER):
-            number_of_fields_to_buy = MAXIMUM_FIELDS_NUMBER - self.number_of_fields
+            n_fields_to_buy = MAXIMUM_FIELDS_NUMBER - self.number_of_fields
 
-        while number_of_fields_to_buy >= 1:
+        while n_fields_to_buy >= 1:
             self.add_command("0 ACHETER_CHAMP")
-            number_of_fields_to_buy -= 1
+            n_fields_to_buy -= 1
             self.number_of_fields += 1
 
     def buy_tactors(self, number_of_tractors_to_buy):
@@ -94,22 +106,26 @@ class Aigrisculteurs:
         vegatable_count = {}
         for vegatable, count in self.my_farm[FACTORY][STOCK].items():
             logging.debug(f'Vegetable count : {vegatable} : {int(count)}')
-            vegatable_count[vegatable]=int(count)
+            vegatable_count[vegatable] = int(count)
         return vegatable_count
 
-        
+    def get_less_stocked_vegetable(self):
+        less_vegetables = min(self.get_vegetables_stock(), key=self.get_vegetables_stock().get)  # noqa: E501
+        logging.info(f"Less stocked vegetables {less_vegetables}")
+        return less_vegetables
 
-    def send_worker_to_place(self, worker_id, place):   # place can be "cuisiner" or a field ID
+    # place can be "cuisiner" or a field ID
+    def send_worker_to_place(self, worker_id, place):
         if self.worker_daily_task[f'worker{worker_id}'] == "None":
-            if place == "USINE" :
+            if place == "USINE":
                 self.add_command(f"{worker_id} CUISINER")
-            
-            elif 1 <= int(place) <= 5 :
+
+            elif 1 <= int(place) <= 5:
                 self.add_command(f"{worker_id} ARROSER {int(place)}")
-            else :
-                logging.error(f"Unknown place")
+            else:
+                logging.error("Unknown place")
         else:
-            logging.error(f"Worker {worker_id} alredy done a task today : {self.worker_daily_task[f'worker{worker_id}']}")
+            logging.error(f"Worker {worker_id} alredy done a task today : {self.worker_daily_task[f'worker{worker_id}']}")  # noqa: E501
 
     def hiring_workers(self, numbort_of_workers_to_hire):
         for _ in range(numbort_of_workers_to_hire):
@@ -151,7 +167,7 @@ class Aigrisculteurs:
                     logging.info(
                         f"worker {self.my_farm[WORKERS][worker_id]['id']}  at  {self.my_farm[WORKERS][worker_id][LOCATION]}")   # noqa: E501
                     logging.info(
-                        f"field : {self.my_farm[FIELDS][field_id - 1][LOCATION]}")
+                        f"field : {self.my_farm[FIELDS][field_id - 1][LOCATION]}")  # noqa: E501
                     self.water_field(worker_id, field_id)
                     break
 
