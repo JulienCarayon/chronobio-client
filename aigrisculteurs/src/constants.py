@@ -3,11 +3,20 @@ WORKERS = "employees"
 LOCATION = "location"
 FIELDS = "fields"
 NEEDED_WATER = "needed_water"
-FACTORY = "soup_factory"
+FACTORY = ("soup_factory", "CUISINER")
 STOCK = "stock"
+CONTENT = "content"
 
 POTATO = ('POTATO', 'PATATE')
 LEEK = ('LEEK', 'POIREAU')
 TOMATO = ('TOMATO', 'TOMATE')
 ONION = ('ONION', 'OIGNON')
 ZUCCHINI = ('ZUCCHINI', 'COURGETTE')
+
+VEGETABLES = {
+    'POTATO': 'PATATE',
+    'LEEK': 'POIREAU',
+    'TOMATO': 'TOMATE',
+    'ONION': 'OIGNON',
+    'ZUCCHINI': 'COURGETTE'
+}

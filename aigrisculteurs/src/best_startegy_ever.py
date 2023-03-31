@@ -9,11 +9,13 @@ from src.constants import (
                             NEEDED_WATER,
                             FACTORY,
                             STOCK,
+                            CONTENT,
                             POTATO,
                             LEEK,
                             TOMATO,
                             ONION,
-                            ZUCCHINI)
+                            ZUCCHINI,
+                            VEGETABLES)
 
 logging.basicConfig(
     filename="../aigrisculteurs.log",
@@ -27,7 +29,7 @@ class Aigrisculteurs:
     vegetable_list = ["TOMATE", "PATATE", "OIGNON", "COURGETTE", "POIREAU"]
 
     def __init__(self: "Aigrisculteurs"):
-        logging.info('Started')
+        logging.debug('Started')
         self.game_data = None
         self.my_farm = None
         self.aigrisculteurs_commands: list[str] = []
@@ -67,7 +69,7 @@ class Aigrisculteurs:
             if self.game_data["day"] > 7:
                 self.buy_tactors(10)
                 for field_id in range(1, MAXIMUM_FIELDS_NUMBER + 1):
-                    logging.info(field_id)
+                    logging.debug(field_id)
                     self.field_need_water(field_id)
 
             if self.game_data["day"] == 20:
@@ -104,28 +106,72 @@ class Aigrisculteurs:
 
     def get_vegetables_stock(self):
         vegatable_count = {}
-        for vegatable, count in self.my_farm[FACTORY][STOCK].items():
+        for vegatable, count in self.my_farm[FACTORY[0]][STOCK].items():
             logging.debug(f'Vegetable count : {vegatable} : {int(count)}')
             vegatable_count[vegatable] = int(count)
         return vegatable_count
 
     def get_less_stocked_vegetable(self):
         less_vegetables = min(self.get_vegetables_stock(), key=self.get_vegetables_stock().get)  # noqa: E501
-        logging.info(f"Less stocked vegetables {less_vegetables}")
-        return less_vegetables
+        logging.debug(f"Less stocked vegetables {less_vegetables}")
+        fr_less_vegetable = None
+        for fr_vegetables in VEGETABLES.keys():
+            if fr_vegetables == less_vegetables:
+                fr_less_vegetable = VEGETABLES[fr_vegetables]
+        return fr_less_vegetable
 
-    # place can be "cuisiner" or a field ID
-    def send_worker_to_place(self, worker_id, place):
-        if self.worker_daily_task[f'worker{worker_id}'] == "None":
-            if place == "USINE":
-                self.add_command(f"{worker_id} CUISINER")
-
-            elif 1 <= int(place) <= 5:
-                self.add_command(f"{worker_id} ARROSER {int(place)}")
-            else:
-                logging.error("Unknown place")
+    def check_if_field_sown(self, field_id):
+        if self.my_farm[FIELDS][field_id - 1][CONTENT] == 'NONE':
+            return False
         else:
-            logging.error(f"Worker {worker_id} alredy done a task today : {self.worker_daily_task[f'worker{worker_id}']}")  # noqa: E501
+            return True
+
+    # place can be FACTORY or a field ID
+    def check_worker_availability(self, worker_id):
+        logging.debug(f"DAILY TASK VALUE : {self.worker_daily_task[f'worker{worker_id}']}")  # noqa: E501
+        # if self.worker_daily_task.get[f"worker{worker_id}"] == "None":
+        if self.worker_daily_task.get(f'worker{worker_id}') == "None":
+            return True
+        else:
+            logging.debug(f"Prevented {worker_id} from doing multiple tasks : {self.worker_daily_task[f'worker{worker_id}']}")  # noqa: E501
+            return False
+
+    def send_worker_to_place(self, worker_id, place):
+        if place == FACTORY:
+            self.worker_creating_soup_at_factory(worker_id)
+
+        elif 1 <= int(place) <= 5:
+            if self.check_if_field_sown(int(place)):
+                self.water_field(worker_id, int(place))
+            else:
+                self.seed_less_stocked_vegetable(worker_id, int(place))
+        else:
+            logging.error("Unknown place")
+
+    def seed_less_stocked_vegetable(self, worker_id, field_id):
+        less_stocked_vegetables = self.get_less_stocked_vegetable()
+        self.worker_sow_vegetable_at_field(worker_id, less_stocked_vegetables, field_id)    # noqa: E501
+
+    def worker_sow_vegetable_at_field(self, worker_id, vegetable, field_id):
+        worker_available = self.check_worker_availability(worker_id) is True
+
+        if vegetable in self.vegetable_list and worker_available is True:
+            self.add_command(f"{worker_id} SEMER {vegetable} {field_id}")
+            self.worker_daily_task[f"worker{worker_id}"] = "SEMER"
+        else:
+            logging.error(f"{vegetable} not in vegetable list")
+
+    def worker_creating_soup_at_factory(self, worker_id):
+        if self.check_worker_availability(worker_id) is True:
+            self.add_command(f"{worker_id} {FACTORY[1]}")
+            self.worker_daily_task[f"worker{worker_id}"] = "CUISINER"
+
+    def water_field(self, worker_id, field_id):
+        if self.check_worker_availability(worker_id) is True:
+            self.add_command(f"{worker_id} ARROSER {field_id}")
+            # logging.debug(
+            #     f"==> worker{worker_id} wattering field{field_id} !")
+            self.worker_daily_task[f"worker{worker_id}"] = "ARROSER"
 
     def hiring_workers(self, numbort_of_workers_to_hire):
         for _ in range(numbort_of_workers_to_hire):
@@ -133,15 +179,11 @@ class Aigrisculteurs:
             self.actual_number_of_workers += 1
             self.add_value_to_dict(
                 f'worker{self.actual_number_of_workers}', "None", str())
-            # logging.info(self.worker_daily_task)
+            # logging.debug(self.worker_daily_task)
 
     def worker_daily_task_new_day(self, new_value="None"):
         for key in self.worker_daily_task:
             self.worker_daily_task[key] = new_value
-
-    def worker_sow_vegetable_at_field(self, worker_id, vegetable, field_id):
-        if vegetable in self.vegetable_list:
-            self.add_command(f"{worker_id} SEMER {vegetable} {field_id}")
 
     def check_workers_number(self, actual_worker_number):
         return actual_worker_number < 10
@@ -150,34 +192,26 @@ class Aigrisculteurs:
         workers_id_available = []
         for worker in range(1, self.actual_number_of_workers):
             if self.worker_daily_task.get(f'worker{worker}') == "None":
-                logging.info(f'worker{worker} ready to do his daily task !')
+                logging.debug(f'worker{worker} ready to do his daily task !')
                 workers_id_available.append(worker)
             elif self.worker_daily_task.get(f'worker{worker}') != "None":
-                logging.info(
+                logging.debug(
                     f"/!\\ worker{worker} already done his daily task !")
         return workers_id_available
 
     def field_need_water(self, field_id):
         workers_id_available = []
-        logging.info(self.my_farm[FIELDS][field_id - 1])
+        logging.debug(self.my_farm[FIELDS][field_id - 1])
         if self.my_farm[FIELDS][field_id - 1][NEEDED_WATER] != 0:
             workers_id_available = self.worker_daily_task_state()
             for worker_id in workers_id_available:
                 if self.my_farm[WORKERS][worker_id - 1][LOCATION] == self.my_farm[FIELDS][field_id - 1][LOCATION]:  # noqa: E501
-                    logging.info(
+                    logging.debug(
                         f"worker {self.my_farm[WORKERS][worker_id]['id']}  at  {self.my_farm[WORKERS][worker_id][LOCATION]}")   # noqa: E501
-                    logging.info(
+                    logging.debug(
                         f"field : {self.my_farm[FIELDS][field_id - 1][LOCATION]}")  # noqa: E501
                     self.water_field(worker_id, field_id)
                     break
-
-    def water_field(self, worker_id, field_id):
-        self.add_command(f"{worker_id} ARROSER {field_id}")
-        logging.info(
-            f"==> worker{worker_id} wattering field{field_id} !")
-
-    def worker_location_to_field(self):
-        pass
 
     def add_value_to_dict(self, dict_key, dict_value, type_value):
         # dict_key = key - self.worker_daily_task = dict - dict_value = value - i = type value  # noqa: E501
