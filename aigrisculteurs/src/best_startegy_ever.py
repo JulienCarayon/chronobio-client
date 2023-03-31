@@ -58,7 +58,7 @@ class Aigrisculteurs:
             if self.game_data["day"] == 0:
                 self.do_bank_loan(100000)
                 self.buy_fields(5)
-                self.buy_tactors(4)
+                self.buy_tractors(4)
                 self.hiring_workers(37)
 
             #     self.worker_sow_vegetable_at_field(1, TOMATO[1], 1)
@@ -101,7 +101,7 @@ class Aigrisculteurs:
             n_fields_to_buy -= 1
             self.number_of_fields += 1
 
-    def buy_tactors(self, number_of_tractors_to_buy):
+    def buy_tractors(self, number_of_tractors_to_buy):
         while (number_of_tractors_to_buy):
             self.add_command("0 ACHETER_TRACTEUR")
             self.actual_number_of_tractors += 1
@@ -159,10 +159,11 @@ class Aigrisculteurs:
             logging.debug(f"Prevented {worker_id} from doing multiple tasks : {self.worker_daily_task[f'worker{worker_id}']}")  # noqa: E501
             return False
 
-    def send_worker_to_place(self, worker_id, place, tractor_id=None):
+    def send_worker_to_place(self, worker_id, place, tractor_id=None, field_to_collect=None):   # noqa: E501
         if place == FACTORY_SOUPE:
             self.worker_creating_soup_at_FACTORY_SOUPE(worker_id)
-        # elif place == FACTORY_STOCK:
+        elif place == FACTORY_STOCK:
+            self.store_with_tractor(worker_id, tractor_id, field_to_collect)
 
         elif 1 <= int(place) <= 5:
             if self.check_if_field_sown(int(place)):
@@ -189,7 +190,6 @@ class Aigrisculteurs:
         worker_available = self.check_worker_availability(worker_id) is True
         tractor_available = tractor_id <= self.actual_number_of_tractors
         field_collectable = self.check_if_field_collectable(field_id)
-
         if worker_available and tractor_available and field_collectable:
             self.add_command(f"{worker_id} STOCKER {field_id} {tractor_id}")
 
