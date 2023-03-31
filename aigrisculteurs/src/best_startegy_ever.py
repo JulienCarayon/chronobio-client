@@ -1,7 +1,7 @@
 import logging
 
 
-from src.constants import MAXIMUM_FIELDS_NUMBER, LOCATION, FIELDS, NEEDED_WATER, WORKERS
+from src.constants import *
 
 logging.basicConfig(
     filename="../aigrisculteurs.log",
@@ -90,13 +90,34 @@ class Aigrisculteurs:
     def do_bank_loan(self, money):
         self.add_command(f"0 EMPRUNTER {money}")
 
+    def get_vegetables_stock(self):
+        vegatable_count = {}
+        for vegatable, count in self.my_farm[FACTORY][STOCK].items():
+            logging.debug(f'Vegetable count : {vegatable} : {int(count)}')
+            vegatable_count[vegatable]=int(count)
+        return vegatable_count
+
+        
+
+    def send_worker_to_place(self, worker_id, place):   # place can be "cuisiner" or a field ID
+        if self.worker_daily_task[f'worker{worker_id}'] == "None":
+            if place == "USINE" :
+                self.add_command(f"{worker_id} CUISINER")
+            
+            elif 1 <= int(place) <= 5 :
+                self.add_command(f"{worker_id} ARROSER {int(place)}")
+            else :
+                logging.error(f"Unknown place")
+        else:
+            logging.error(f"Worker {worker_id} alredy done a task today : {self.worker_daily_task[f'worker{worker_id}']}")
+
     def hiring_workers(self, numbort_of_workers_to_hire):
         for _ in range(numbort_of_workers_to_hire):
             self.add_command("0 EMPLOYER")
             self.actual_number_of_workers += 1
             self.add_value_to_dict(
                 f'worker{self.actual_number_of_workers}', "None", str())
-            logging.info(self.worker_daily_task)
+            # logging.info(self.worker_daily_task)
 
     def worker_daily_task_new_day(self, new_value="None"):
         for key in self.worker_daily_task:
