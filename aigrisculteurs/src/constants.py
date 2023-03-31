@@ -2,9 +2,10 @@ MAXIMUM_FIELDS_NUMBER = 5
 WORKERS = "employees"
 LOCATION = "location"
 FIELDS = "fields"
-NEEDED_WATER = "needed_water"
-FACTORY = ("soup_factory", "CUISINER")
 STOCK = "stock"
+NEEDED_WATER = "needed_water"
+FACTORY_SOUPE = ("soup_factory", "CUISINER")
+FACTORY_STOCK = "USINE"
 CONTENT = "content"
 
 POTATO = ('POTATO', 'PATATE')
