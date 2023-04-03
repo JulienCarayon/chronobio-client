@@ -80,14 +80,14 @@ class Aigrisculteurs:
                 self.new_day()
                 self.sendTO(start=1, length=33, place=2)
                 # self.send_group_to_place(workers_id_start = 1 , workers_id_length=33, place=2)
-                self.send_worker_to_place(pfield_to_collect=1,worker_id=34,tractor_id=1, place=FACTORY_STOCK, )
+                self.send_worker_to_place(field_to_collect=1,worker_id=34,tractor_id=1)
 
             elif self.day == 2:
                 self.new_day()
                 self.worker_daily_task_new_day()
                 self.sendTO(start=1, length=11, place=2)
                 self.sendTO(start=12, length=22, place=3)
-                self.send_worker_to_place(field_to_collect=2,worker_id=35,tractor_id=2, place=FACTORY_STOCK )
+                self.send_worker_to_place(field_to_collect=2,worker_id=35,tractor_id=2)
 
             elif self.day == 3:
                 self.new_day()
@@ -95,14 +95,14 @@ class Aigrisculteurs:
                 self.sendTO(start=12, length=22, place=4)
                 # self.send_group_to_place(workers_id_start = 12 , workers_id_length=22, place=4)
 
-                self.send_worker_to_place( field_to_collect=3, worker_id=36, tractor_id=3, place=FACTORY_STOCK )
+                self.send_worker_to_place( field_to_collect=3, worker_id=36, tractor_id=3)
             
             elif self.day == 4:
                 self.new_day()
                 self.sendTO(start=1, length=11, place=2)
                 self.sendTO(start=12, length=11, place=3)
                 self.sendTO(start=23, length=11, place=5)
-                self.send_worker_to_place( field_to_collect=4, worker_id=37, tractor_id=4, place=FACTORY_STOCK )
+                self.send_worker_to_place( field_to_collect=4, worker_id=37, tractor_id=4)
                 # self.send_worker_to_place(worker_id=36, place=FACTORY_STOCK, tractor_id=4, field_to_collect=4)
                 # self.send_worker_to_place(worker_id=37, place=FACTORY_STOCK, tractor_id=4, field_to_collect=4)
                 # self.send_group_to_place(workers_id_start = 1 , workers_id_length=11, place=2)
@@ -115,8 +115,8 @@ class Aigrisculteurs:
                 self.sendTO(start=12, length=11, place=4)
                 # self.sendTO(start=23, length=11, place=4)
                 self.sendTO(start=23, length=11, place=5)
-                self.send_worker_to_place(place=FACTORY_STOCK, field_to_collect = 3, tractor_id=3)
-                self.send_worker_to_place(place=FACTORY_STOCK, field_to_collect = 5, tractor_id=4)
+                self.send_worker_to_place(field_to_collect = 3, tractor_id=3)
+                self.send_worker_to_place(field_to_collect = 5, tractor_id=4)
 
             if self.my_farm['blocked']==False:
                 if self.day > 5 and self.day%2==True :
@@ -125,8 +125,8 @@ class Aigrisculteurs:
                     self.sendTO(start=12, length=11, place=4)
                     self.sendTO(start=23, length=11, place=5)
                     # self.send_worker_to_place(worker_id=35, place=FACTORY_STOCK, tractor_id=2, field_to_collect=2)
-                    self.send_worker_to_place(place=FACTORY_STOCK, field_to_collect = 5, tractor_id=3)
-                    self.send_worker_to_place(place=FACTORY_STOCK, field_to_collect = 4, tractor_id=4)
+                    self.send_worker_to_place(field_to_collect = 5, tractor_id=3)
+                    self.send_worker_to_place(field_to_collect = 4, tractor_id=4)
 
                     # self.send_worker_to_place(worker_id=36, place=FACTORY_STOCK, tractor_id=3, field_to_collect=5)
                     # self.send_worker_to_place(worker_id=37, place=FACTORY_STOCK, tractor_id=4, field_to_collect=4)
@@ -136,9 +136,9 @@ class Aigrisculteurs:
                     self.new_day()
                     self.sendTO(start=1, length=11, place=1)
                     self.sendTO(start=12, length=11, place=3)
-                    self.send_worker_to_place(place=FACTORY_STOCK, field_to_collect = 2, tractor_id=3)
-                    self.send_worker_to_place(place=FACTORY_STOCK, field_to_collect = 3, tractor_id=3)
-                    self.send_worker_to_place(place=FACTORY_STOCK, field_to_collect = 5, tractor_id=4)
+                    self.send_worker_to_place(field_to_collect = 2, tractor_id=3)
+                    self.send_worker_to_place(field_to_collect = 3, tractor_id=3)
+                    self.send_worker_to_place(field_to_collect = 5, tractor_id=4)
                     # self.send_worker_to_place(worker_id=35, place=FACTORY_STOCK, tractor_id=2, field_to_collect=2)
                     # self.send_worker_to_place(worker_id=36, place=FACTORY_STOCK, tractor_id=3, field_to_collect=5)
                     # self.send_worker_to_place(worker_id=37, place=FACTORY_STOCK, tractor_id=4, field_to_collect=4)
@@ -234,9 +234,10 @@ class Aigrisculteurs:
         # logging.warning(f"FIELD {field_id} not collectable. water status : {self.my_farm[FIELDS][field_id][NEEDED_WATER]}")
 
         if(self.check_if_field_sown(field_id) \
-           and self.check_if_field_need_water(field_id) is False) \
+            and self.check_if_field_need_water(field_id) is False) \
             and is_bought is True \
-                and ( self.my_farm[FIELDS][field_id - 1].get('already_collected')==False or ('already_collected') not in self.my_farm[FIELDS][field_id - 1].items()):  
+            and ( self.my_farm[FIELDS][field_id - 1].get('already_collected')==False \
+            or ('already_collected') not in self.my_farm[FIELDS][field_id - 1].items()):  
             return True
         else:
             logging.warning(f"FIELD {field_id} not collectable. water status : {self.my_farm[FIELDS][field_id][NEEDED_WATER]}")
@@ -253,7 +254,7 @@ class Aigrisculteurs:
             logging.warning(f"Prevented {worker_id} from doing multiple tasks : {self.worker_daily_task[f'worker{worker_id}']}")  # noqa: E501
             return False
 
-    def send_worker_to_place(self, place=None, worker_id=None, tractor_id=None, field_to_collect=None):   # noqa: E501
+    def send_worker_to_place(self, place=FACTORY_STOCK, worker_id=None, tractor_id=None, field_to_collect=None):   # noqa: E501
 
         if tractor_id != None and worker_id == None:
             if WORKER in self.tractor_data[tractor_id - 1]:
@@ -329,6 +330,8 @@ class Aigrisculteurs:
                         self.tractor_data[tractor_id - 1][DESTINATION] = FACTORY_STOCK[1]
                         self.tractor_data[tractor_id - 1][WORKER] = worker_id
                         self.my_farm[FIELDS][field_id - 1]['already_collected']=True
+                        self.my_farm[FIELDS][field_id - 1][VEGETABLES]='NONE'
+                        
                         self.worker_daily_task[f"worker{worker_id}"] = "STOCKER"
                         self.add_command(f"{worker_id} STOCKER {field_id} {tractor_id}")
                 else:
@@ -367,6 +370,7 @@ class Aigrisculteurs:
             self.add_command(f"{worker_id} ARROSER {field_id}")
             # logging.debug(
             #     f"==> worker{worker_id} wattering field{field_id} !")
+            self.my_farm[FIELDS][field_id - 1][NEEDED_WATER] -= 1 
             self.worker_daily_task[f"worker{worker_id}"] = "ARROSER"
 
     def hiring_workers(self, numbort_of_workers_to_hire):
