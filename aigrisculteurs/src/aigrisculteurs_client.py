@@ -64,4 +64,6 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    client = PlayerGameClient(args.address, args.port, args.username).run()
+    client: PlayerGameClient = PlayerGameClient(
+        args.address, args.port, args.username
+    ).run()

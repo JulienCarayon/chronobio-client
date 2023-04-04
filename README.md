@@ -5,8 +5,7 @@ Client for the Python game made by @vpoulailleau
 
 ### How to use ?
 
-use a venv using : 
+use a venv using :
 ```
 python -m venv venv
 ```
-
