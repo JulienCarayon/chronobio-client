@@ -55,7 +55,7 @@ class Aigrisculteurs:
         for farm in self.game_data["farms"]:
             if farm["name"] == my_farm_name:
                 self.my_farm = farm
-                print(self.my_farm)
+                # print(self.my_farm)
                 break
         else:
             # print("error")
@@ -75,16 +75,20 @@ class Aigrisculteurs:
                 self.buy_tractors(4)
                 self.hiring_workers(37)
 
-                self.sendTO(start=1, length=33, place=1)
-                # self.send_group_to_place(workers_id_start = 1 , workers_id_length=33, place=1)
+                self.send_group_to_place(
+                    workers_id_start=1, workers_id_length=33, place=1
+                )
 
             elif self.day == 1:
                 self.hiring_workers(8)
 
                 self.new_day()
-                self.sendTO(start=1, length=33, place=2)
-                self.sendTO(start=38, length=8, place=FACTORY_SOUPE)
-                # self.send_group_to_place(workers_id_start = 1 , workers_id_length=33, place=2)
+                self.send_group_to_place(
+                    workers_id_start=1, workers_id_length=33, place=2
+                )
+                self.send_group_to_place(
+                    workers_id_start=38, workers_id_length=8, place=FACTORY_SOUPE
+                )
                 self.send_worker_to_place(
                     field_to_collect=1, worker_id=36, tractor_id=3
                 )
@@ -92,40 +96,47 @@ class Aigrisculteurs:
             elif self.day == 2:
                 self.new_day()
                 self.worker_daily_task_new_day()
-                self.sendTO(start=12, length=22, place=3)
+                self.send_group_to_place(
+                    workers_id_start=12, workers_id_length=22, place=3
+                )
                 self.send_worker_to_place(
                     field_to_collect=2, worker_id=37, tractor_id=4
                 )
 
             elif self.day == 3:
                 self.new_day()
-                self.sendTO(start=1, length=11, place=1)
-                self.sendTO(start=12, length=22, place=4)
-                # self.send_group_to_place(workers_id_start = 12 , workers_id_length=22, place=4)
-
+                self.send_group_to_place(
+                    workers_id_start=1, workers_id_length=11, place=1
+                )
+                self.send_group_to_place(
+                    workers_id_start=12, workers_id_length=22, place=4
+                )
                 self.send_worker_to_place(
                     field_to_collect=3, worker_id=34, tractor_id=1
                 )
 
             elif self.day == 4:
                 self.new_day()
-                self.sendTO(start=1, length=11, place=2)
-                self.sendTO(start=12, length=11, place=3)
-                self.sendTO(start=23, length=11, place=5)
+                self.send_group_to_place(
+                    workers_id_start=1, workers_id_length=11, place=2
+                )
+                self.send_group_to_place(
+                    workers_id_start=12, workers_id_length=11, place=3
+                )
+                self.send_group_to_place(
+                    workers_id_start=23, workers_id_length=11, place=5
+                )
                 self.send_worker_to_place(
                     field_to_collect=1, worker_id=35, tractor_id=2
                 )
                 self.send_worker_to_place(field_to_collect=4, tractor_id=4)
 
-                # self.send_worker_to_place(worker_id=36, place=FACTORY_STOCK, tractor_id=4, field_to_collect=4)
-                # self.send_worker_to_place(worker_id=37, place=FACTORY_STOCK, tractor_id=4, field_to_collect=4)
-                # self.send_group_to_place(workers_id_start = 1 , workers_id_length=11, place=2)
-                # self.send_group_to_place(workers_id_start = 23 , workers_id_length=11, place=5)
-
             elif self.day == 5:
                 self.new_day()
 
-                self.sendTO(start=12, length=11, place=4)
+                self.send_group_to_place(
+                    workers_id_start=12, workers_id_length=11, place=4
+                )
                 self.send_worker_to_place(field_to_collect=2, tractor_id=1)
                 self.send_worker_to_place(field_to_collect=3, tractor_id=3)
                 self.send_worker_to_place(field_to_collect=5, tractor_id=4)
@@ -133,26 +144,39 @@ class Aigrisculteurs:
             if self.my_farm["blocked"] == False:
                 if self.day > 5 and self.day % 2 == 0:
                     self.new_day()
-                    self.sendTO(start=12, length=11, place=3)
-                    self.sendTO(start=23, length=11, place=5)
+                    self.send_group_to_place(
+                        workers_id_start=12, workers_id_length=11, place=3
+                    )
+                    self.send_group_to_place(
+                        workers_id_start=23, workers_id_length=11, place=5
+                    )
                     self.send_worker_to_place(field_to_collect=4, tractor_id=3)
                     if self.day > 6 and self.day % 4 != 2:
-                        self.sendTO(start=1, length=11, place=2)
+                        self.send_group_to_place(
+                            workers_id_start=1, workers_id_length=11, place=2
+                        )
                         self.send_worker_to_place(field_to_collect=1, tractor_id=1)
 
                 elif self.day > 5 and self.day % 2 != 0:
                     self.new_day()
-                    self.sendTO(start=12, length=11, place=4)
+                    self.send_group_to_place(
+                        workers_id_start=12, workers_id_length=11, place=4
+                    )
                     self.send_worker_to_place(field_to_collect=3, tractor_id=3)
                     self.send_worker_to_place(field_to_collect=5, tractor_id=4)
                     if self.day_bool == True:
-                        self.sendTO(start=1, length=11, place=1)
+                        self.send_group_to_place(
+                            workers_id_start=1, workers_id_length=11, place=1
+                        )
                         self.day_bool = False
                     elif self.day_bool == False:
                         self.send_worker_to_place(field_to_collect=2, tractor_id=2)
                         self.day_bool = True
 
-                # self.new_day()
+            if self.actual_number_of_workers > 37 and self.day > 6:
+                self.send_group_to_place(
+                    workers_id_start=38, workers_id_length=8, place=FACTORY_SOUPE
+                )
 
             if testing is True:
                 self.add_command("10 STOCKER 5 1")
@@ -165,8 +189,7 @@ class Aigrisculteurs:
     def new_day(self):
         self.worker_daily_task_new_day()
         self.update_tractor_position()
-        if self.actual_number_of_workers > 37 and self.day > 6:
-            self.sendTO(start=38, length=8, place=FACTORY_SOUPE)
+
         logging.info(f"--DAY {self.game_data['day']}--{self.game_data}")
 
     def buy_fields(self, n_fields_to_buy):
@@ -321,14 +344,10 @@ class Aigrisculteurs:
         else:
             logging.error("Unknown place")
 
-    def sendTO(self, start, length, place):
-        for i in range(start, start + length):
-            self.send_worker_to_place(worker_id=i, place=place)
-
     def send_group_to_place(self, workers_id_start, workers_id_length, place):
-        for worker in range(workers_id_start, workers_id_start + workers_id_length):
-            logging.debug(f"WORKER {worker} ASKED TO {place}")
-            self.send_worker_to_place(worker, place)
+        for i in range(workers_id_start, workers_id_start + workers_id_length):
+            logging.debug(f"WORKER {i} ASKED TO {place}")
+            self.send_worker_to_place(worker_id=i, place=place)
 
     def seed_less_stocked_vegetable(self, worker_id, field_id):
         less_stocked_vegetables = self.get_less_stocked_vegetable()
