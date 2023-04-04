@@ -23,4 +23,4 @@ repos:
     rev: v0.812
     hooks:
       - id: mypy
-        files: aigrisculteurs/src/.py
+        files: aigrisculteurs/src/best_strategy_ever.py
