@@ -66,7 +66,7 @@ class Aigrisculteurs:
             # print("error")
             raise ValueError(f"My farm is not found ({self.username})")
 
-    def run(self, game_data, testing=False, should_crash=False):
+    def run(self, game_data, testing=False, should_crash=False):    # noqa: C901
         self.testing = testing
         try:
             self.game_data = game_data
