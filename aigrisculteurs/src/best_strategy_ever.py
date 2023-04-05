@@ -24,7 +24,6 @@ from src.constants import (
 
 logging.basicConfig(
     filename="../aigrisculteurs.log",
-    encoding="utf-8",
     level=logging.DEBUG,
     format="%(asctime)s \
     [%(levelname)-8s] \
@@ -45,14 +44,14 @@ class Aigrisculteurs:
         self.aigrisculteurs_commands: list[str] = []
         self.actual_number_of_workers = 0
         self.actual_number_of_tractors = 0
-        self.worker_daily_task = {}
+        self.worker_daily_task: dict[str, str] = {}
         self.number_of_fields = 0
-        self.list_of_fiels = []
-        self.tractor_data = (
+        self.tractor_data: list[
+            dict[str, str]
+        ] = (
             []
         )  # [tractor_id]{'worker':worker_id,'location':FIELD_ID or FACTORY_STOCK, destination:FIELD_ID or FACTORY_STOCK or None if not used}   # noqa: E501
         self.testing = False
-        self.field_status = []
         self.day_bool = True
 
     def get_my_farm_json(self, my_farm_name="aigrisculteurs"):
@@ -66,7 +65,7 @@ class Aigrisculteurs:
             # print("error")
             raise ValueError(f"My farm is not found ({self.username})")
 
-    def run(self, game_data, testing=False, should_crash=False):    # noqa: C901
+    def run(self, game_data, testing=False, should_crash=False):  # noqa: C901
         self.testing = testing
         try:
             self.game_data = game_data
@@ -93,7 +92,9 @@ class Aigrisculteurs:
                     workers_id_start=1, workers_id_length=33, place=2
                 )
                 self.send_group_to_place(
-                    workers_id_start=38, workers_id_length=8, place=FACTORY_SOUPE   # noqa: E501
+                    workers_id_start=38,
+                    workers_id_length=8,
+                    place=FACTORY_SOUPE,  # noqa: E501
                 )
                 self.send_worker_to_place(
                     field_to_collect=1, worker_id=36, tractor_id=3
@@ -180,7 +181,9 @@ class Aigrisculteurs:
 
             if self.actual_number_of_workers > 37 and self.day > 6:
                 self.send_group_to_place(
-                    workers_id_start=38, workers_id_length=8, place=FACTORY_SOUPE   # noqa: E501
+                    workers_id_start=38,
+                    workers_id_length=8,
+                    place=FACTORY_SOUPE,  # noqa: E501
                 )
 
             if testing is True and should_crash is True:
@@ -254,7 +257,9 @@ class Aigrisculteurs:
     def check_if_field_sown(self, field_id):
         if 1 <= field_id <= 5:
             bought = self.my_farm[FIELDS][field_id - 1].get("bought")
-            if self.my_farm[FIELDS][field_id - 1].get(CONTENT) != "NONE" and bought:    # noqa: E501
+            if (
+                self.my_farm[FIELDS][field_id - 1].get(CONTENT) != "NONE" and bought
+            ):  # noqa: E501
 
                 return True
 
@@ -265,7 +270,9 @@ class Aigrisculteurs:
 
     def check_if_field_need_water(self, field_id):
         if 1 <= field_id <= 5:
-            need_water = self.my_farm[FIELDS][field_id - 1].get(NEEDED_WATER) > 0   # noqa: E501
+            need_water = (
+                self.my_farm[FIELDS][field_id - 1].get(NEEDED_WATER) > 0
+            )  # noqa: E501
             if need_water and self.check_if_field_sown(field_id):
                 return True
             else:
@@ -282,7 +289,8 @@ class Aigrisculteurs:
             )
             and is_bought is True
             and (
-                self.my_farm[FIELDS][field_id - 1].get("already_collected") is False   # noqa: E501
+                self.my_farm[FIELDS][field_id - 1].get("already_collected")
+                is False  # noqa: E501
                 or ("already_collected")
                 not in self.my_farm[FIELDS][field_id - 1].items()
             )
@@ -290,7 +298,7 @@ class Aigrisculteurs:
             return True
         else:
             logging.warning(
-                f"FIELD {field_id} not collectable. water status : {self.my_farm[FIELDS][field_id][NEEDED_WATER]}"   # noqa: E501
+                f"FIELD {field_id} not collectable. water status : {self.my_farm[FIELDS][field_id][NEEDED_WATER]}"  # noqa: E501
             )
             return False
 
@@ -302,12 +310,12 @@ class Aigrisculteurs:
             )  # noqa: E501
             if worker_availability:
                 logging.debug(
-                    f"WORKER{worker_id} DAILY TASK VALUE : {self.worker_daily_task[f'worker{worker_id}']}"   # noqa: E501
+                    f"WORKER{worker_id} DAILY TASK VALUE : {self.worker_daily_task[f'worker{worker_id}']}"  # noqa: E501
                 )  # noqa: E501
                 return True
             else:
                 logging.warning(
-                    f"Prevented {worker_id} from doing multiple tasks : {self.worker_daily_task[f'worker{worker_id}']}"   # noqa: E501
+                    f"Prevented {worker_id} from doing multiple tasks : {self.worker_daily_task[f'worker{worker_id}']}"  # noqa: E501
                 )  # noqa: E501
                 return False
         else:
@@ -331,20 +339,22 @@ class Aigrisculteurs:
             logging.debug(f"WORKER STATUS: worker{worker_id} went SOUPE")
         elif place == FACTORY_STOCK:
             logging.debug(
-                f"WORKER {worker_id} ASKED TO {place} COLLECT ? {field_to_collect}"   # noqa: E501
+                f"WORKER {worker_id} ASKED TO {place} COLLECT ? {field_to_collect}"  # noqa: E501
             )
             self.store_with_tractor(worker_id, tractor_id, field_to_collect)
 
         elif 1 <= int(place) <= 5:
             logging.debug(
-                f"WORKER {worker_id} : IS FIELD{int(place)} SOWN? {self.check_if_field_sown(int(place))}"   # noqa: E501
+                f"WORKER {worker_id} : IS FIELD{int(place)} SOWN? {self.check_if_field_sown(int(place))}"  # noqa: E501
             )
             if self.check_if_field_sown(int(place)):
                 self.water_field(worker_id, int(place))
-                logging.debug(f"WORKER STATUS: worker{worker_id} watered field{place}")   # noqa: E501
+                logging.debug(
+                    f"WORKER STATUS: worker{worker_id} watered field{place}"
+                )  # noqa: E501
             else:
                 logging.debug(
-                    f"WORKER STATUS: worker{worker_id} seeded {self.get_less_stocked_vegetable()} on field{place}"   # noqa: E501
+                    f"WORKER STATUS: worker{worker_id} seeded {self.get_less_stocked_vegetable()} on field{place}"  # noqa: E501
                 )
                 self.seed_less_stocked_vegetable(worker_id, int(place))
 
@@ -382,23 +392,35 @@ class Aigrisculteurs:
         if worker_available:
             if tractor_available:
                 if field_collectable:
-                    logging.debug(f"TRACTOR {tractor_id} with worker{worker_id}")   # noqa: E501
+                    logging.debug(
+                        f"TRACTOR {tractor_id} with worker{worker_id}"
+                    )  # noqa: E501
                     if (
-                        self.tractor_data[tractor_id - 1].get(WORKER) == worker_id   # noqa: E501
-                        or self.tractor_data[tractor_id - 1].get(WORKER) is None   # noqa: E501
+                        self.tractor_data[tractor_id - 1].get(WORKER)
+                        == worker_id  # noqa: E501
+                        or self.tractor_data[tractor_id - 1].get(WORKER)
+                        is None  # noqa: E501
                     ):
                         logging.debug(
-                            f"WORKER {worker_id} STORED {field_id} WITH {tractor_id}"   # noqa: E501
+                            f"WORKER {worker_id} STORED {field_id} WITH {tractor_id}"  # noqa: E501
                         )
-                        self.tractor_data[tractor_id - 1][DESTINATION] = FACTORY_STOCK[   # noqa: E501
+                        self.tractor_data[tractor_id - 1][
+                            DESTINATION
+                        ] = FACTORY_STOCK[  # noqa: E501
                             1
                         ]
                         self.tractor_data[tractor_id - 1][WORKER] = worker_id
-                        self.my_farm[FIELDS][field_id - 1]["already_collected"] = True   # noqa: E501
+                        self.my_farm[FIELDS][field_id - 1][
+                            "already_collected"
+                        ] = True  # noqa: E501
                         self.my_farm[FIELDS][field_id - 1][CONTENT] = "NONE"
 
-                        self.worker_daily_task[f"worker{worker_id}"] = "STOCKER"   # noqa: E501
-                        self.add_command(f"{worker_id} STOCKER {field_id} {tractor_id}")   # noqa: E501
+                        self.worker_daily_task[
+                            f"worker{worker_id}"
+                        ] = "STOCKER"  # noqa: E501
+                        self.add_command(
+                            f"{worker_id} STOCKER {field_id} {tractor_id}"
+                        )  # noqa: E501
             else:
                 logging.warning(f"TRACTOR {tractor_id} not available")
 
@@ -412,7 +434,7 @@ class Aigrisculteurs:
                 return True
         else:
             logging.warning(
-                f"TRACTOR {tractor_id } is below TRACTOR_NUMBER : {self.actual_number_of_tractors}"   # noqa: E501
+                f"TRACTOR {tractor_id } is below TRACTOR_NUMBER : {self.actual_number_of_tractors}"  # noqa: E501
             )
             return False
 

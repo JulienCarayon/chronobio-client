@@ -1,7 +1,7 @@
 git submodule init
 git submodule update --init --recursive
 
-FILE=aigrisculteurs/chronobio 
+FILE=aigrisculteurs/chronobio
 echo $FILE
 if [ -e "$FILE" ]; then
     echo "chronobio symlink exists, deleting"
