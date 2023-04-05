@@ -18,6 +18,8 @@ from src.constants import (
     ONION,
     ZUCCHINI,
     VEGETABLES,
+    N_BUSY_DAY,
+    TRACTOR_BUSY_DAY_FROM_FACTORY,
 )
 
 logging.basicConfig(
@@ -5512,3 +5514,60 @@ def test_store_with_tractor(aigrisculteurs):
 
     aigrisculteurs.store_with_tractor(worker_id=3, tractor_id=1, field_id=3)
     assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "1 STOCKER 4 1"
+
+
+def test_set_number_of_busy_day_for_tractor(aigrisculteurs):
+    aigrisculteurs.buy_tractors(5)
+
+    raisedError = None
+    try:
+        tractor_id, field_id = 7, 2
+        aigrisculteurs.set_number_of_busy_day_for_tractor(tractor_id, field_id)
+    except Exception as ex:
+        raisedError = True
+        logging.debug(f"{ex} exception raised")
+    else:
+        raisedError = False
+        logging.debug("TypeError exception not raised")
+    assert raisedError == True
+
+    raisedError = None
+    try:
+        tractor_id, field_id = 3, 8
+        aigrisculteurs.set_number_of_busy_day_for_tractor(tractor_id, field_id)
+    except Exception as ex:
+        raisedError = True
+        logging.debug(f"{ex} exception raised")
+    else:
+        raisedError = False
+        logging.debug("TypeError exception not raised")
+    assert raisedError == True
+
+    tractor_id, field_id = 1, 2
+    aigrisculteurs.set_number_of_busy_day_for_tractor(tractor_id, field_id)
+    assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 3
+    # == TRACTOR_BUSY_DAY_FROM_FACTORY[f"FIELD{field_id}"]
+
+    tractor_id, field_id = 3, 4
+    aigrisculteurs.set_number_of_busy_day_for_tractor(tractor_id, field_id)
+    assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 1
+    # == TRACTOR_BUSY_DAY_FROM_FACTORY[f"FIELD{field_id}"]
+
+
+def test_update_number_of_busy_day_for_tractor(aigrisculteurs):
+    aigrisculteurs.buy_tractors(5)
+    tractor_id, field_id = 1, 3
+    aigrisculteurs.set_number_of_busy_day_for_tractor(tractor_id, field_id)
+    aigrisculteurs.update_number_of_busy_day_for_tractor()
+    assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 0
+
+    tractor_id, field_id = 4, 1
+    aigrisculteurs.set_number_of_busy_day_for_tractor(tractor_id, field_id)
+    aigrisculteurs.update_number_of_busy_day_for_tractor()
+    assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 2
+    aigrisculteurs.update_number_of_busy_day_for_tractor()
+    assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 1
+    aigrisculteurs.update_number_of_busy_day_for_tractor()
+    assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 0
+    aigrisculteurs.update_number_of_busy_day_for_tractor()
+    assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 0

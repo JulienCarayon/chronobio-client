@@ -1,6 +1,7 @@
 MAXIMUM_FIELDS_NUMBER = 5
 WORKERS = "employees"
 WORKER = "worker"
+DAY = "day"
 
 LOCATION = "location"
 DESTINATION = "destination"
@@ -13,6 +14,7 @@ FACTORY_SOUPE = ("soup_factory", "CUISINER", "SOUP_FACTORY")
 FACTORY_STOCK = ("USINE", "SOUP_FACTORY")
 CONTENT = "content"
 TRACTORS = "tractors"
+N_BUSY_DAY = "n_busy_day"
 
 POTATO = ("POTATO", "PATATE")
 LEEK = ("LEEK", "POIREAU")
@@ -26,4 +28,12 @@ VEGETABLES = {
     "TOMATO": "TOMATE",
     "ONION": "OIGNON",
     "ZUCCHINI": "COURGETTE",
+}
+
+TRACTOR_BUSY_DAY_FROM_FACTORY = {
+    "FIELD1": 3,
+    "FIELD2": 3,
+    "FIELD3": 1,
+    "FIELD4": 1,
+    "FIELD5": 1,
 }
