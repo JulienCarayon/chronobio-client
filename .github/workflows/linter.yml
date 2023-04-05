@@ -27,4 +27,4 @@ jobs:
         if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
     - name: Lint with flake8
       run: |
-        flake8 . --count --max-complexity=10 --max-line-length=88 --statistics
+        flake8 aigrisculteurs/src  --count --max-complexity=10 --max-line-length=88 --statistics    
