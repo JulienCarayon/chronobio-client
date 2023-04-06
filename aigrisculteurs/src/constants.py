@@ -8,7 +8,7 @@ DESTINATION = "destination"
 FIELDS = "fields"
 FARM = "FARM"
 
-LAYOFF_DAY = 470
+LAYOFF_DAY = 450
 NUMBER_OF_COOKER = 8
 
 STOCK = "stock"

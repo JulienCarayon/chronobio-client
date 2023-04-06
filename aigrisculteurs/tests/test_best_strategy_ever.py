@@ -5228,22 +5228,20 @@ def test_update_number_of_busy_day_for_tractor(aigrisculteurs):
 
 
 def test_update_local_day(aigrisculteurs):
-    # aigrisculteurs.game_data = game_data
-    # aigrisculteurs.get_my_farm()
-    aigrisculteurs.day = 1
+    aigrisculteurs.day = 0
     aigrisculteurs.update_local_day()
-    assert (aigrisculteurs.local_day) == 1
+    assert (aigrisculteurs.local_day) == 0
 
-    aigrisculteurs.day = 23
-    aigrisculteurs.local_day = 0
-    for _ in range(aigrisculteurs.day):
+    aigrisculteurs.day = 1
+    for _ in range(56):
         aigrisculteurs.update_local_day()
-    assert (aigrisculteurs.local_day) == 23
+        aigrisculteurs.day += 1
+    assert (aigrisculteurs.local_day) == 56
 
-    aigrisculteurs.day = LAYOFF_DAY
-    aigrisculteurs.local_day = 0
-    for _ in range(aigrisculteurs.day):
+    aigrisculteurs.day = 1
+    for _ in range(450):
         aigrisculteurs.update_local_day()
+        aigrisculteurs.day += 1
     assert (aigrisculteurs.local_day) == 0
 
 
@@ -5257,15 +5255,11 @@ def test_fire_workers(aigrisculteurs):
     for id in range(1, 12):
         aigrisculteurs.send_worker_to_place(worker_id=id, place=1)
     aigrisculteurs.send_worker_to_place(worker_id=12, tractor_id=1, field_to_collect=1)
-    logging.info(f"my farm : {aigrisculteurs.my_farm[WORKERS]}")
-    logging.info(f"my farm : {aigrisculteurs.my_farm[WORKERS][11]}")
-    logging.info(f"my farm : {aigrisculteurs.my_farm[WORKERS][12]}")
     aigrisculteurs.fire_workers()
     assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "0 LICENCIER 11"
 
 
 def test_sell_field(aigrisculteurs):
-
     raisedError = None
     try:
         aigrisculteurs.sell_field(field_id=8)
