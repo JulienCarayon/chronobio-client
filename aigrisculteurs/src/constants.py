@@ -8,6 +8,8 @@ DESTINATION = "destination"
 FIELDS = "fields"
 FARM = "FARM"
 
+LAYOFF_DAY = 449
+
 STOCK = "stock"
 NEEDED_WATER = "needed_water"
 FACTORY_SOUPE = ("soup_factory", "CUISINER", "SOUP_FACTORY")
