@@ -17,14 +17,14 @@ class PlayerGameClient(Client):
         while True:
             game_data = self.read_json()
             self.aigrisculteurs.run(game_data)
-            for farm in game_data["farms"]:
-                if farm["name"] == self.username:
-                    my_farm = farm
-                    break
-            else:
-                print("error")
-                raise ValueError(f"My farm is not found ({self.username})")
-            print(my_farm)
+            # for farm in game_data["farms"]:
+            #     if farm["name"] == self.username:
+            #         my_farm = farm
+            #         break
+            # else:
+            #     print("error")
+            #     raise ValueError(f"My farm is not found ({self.username})")
+            # print(my_farm)
 
             self.send_commands()
 
