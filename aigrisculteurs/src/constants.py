@@ -8,7 +8,8 @@ DESTINATION = "destination"
 FIELDS = "fields"
 FARM = "FARM"
 
-LAYOFF_DAY = 449
+LAYOFF_DAY = 470
+NUMBER_OF_COOKER = 8
 
 STOCK = "stock"
 NEEDED_WATER = "needed_water"
@@ -38,4 +39,11 @@ TRACTOR_BUSY_DAY_FROM_FACTORY = {
     "FIELD3": 1,
     "FIELD4": 1,
     "FIELD5": 1,
+}
+
+WORKER_ID_INDEX = {
+    0: [1, 12, 23, 38],  # [group1, group2, group3, cooker]
+    1: [46, 57, 68, 79],
+    2: [87, 98, 109, 120],
+    3: [128, 139, 150, 161],
 }
