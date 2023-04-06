@@ -1,9 +1,7 @@
 # Teams AigrisCulteurs
-<img src="Documents/image/aigriculteur.jpg" alt="3 BG aigrisculteurs"  width="350">
-
 <div align="center">
   </br>
-  <img src="Documents/image/aigriculteur.png" alt="Game name" width="600" height="100">
+  <img src="Documents/Image/aigriculteur.png" alt="Game name" width="600">
   </br></br>
 </div>
 
