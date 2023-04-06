@@ -19,6 +19,8 @@ from src.constants import (
     ZUCCHINI,
     VEGETABLES,
     N_BUSY_DAY,
+    LAYOFF_DAY,
+    TRACTOR_BUSY_DAY_FROM_FACTORY,
 )
 
 game_data = {
@@ -472,7 +474,7 @@ def test_hiring_workers(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     aigrisculteurs.hiring_workers(10)
     assert (aigrisculteurs.actual_number_of_workers) == 10
@@ -697,7 +699,7 @@ def test_buy_fields(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     aigrisculteurs.buy_fields(2)
     assert (aigrisculteurs.number_of_fields) == 2
@@ -923,7 +925,7 @@ def test_buy_tractors(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     aigrisculteurs.buy_tractors(10)
     assert (aigrisculteurs.actual_number_of_tractors) == 10
@@ -1160,19 +1162,19 @@ def test_worker_daily_task_new_day(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     aigrisculteurs.hiring_workers(10)
     aigrisculteurs.worker_daily_task_new_day()
     assert (aigrisculteurs.worker_daily_task["worker1"]) == "None"
 
 
-def test_get_my_farm_json(aigrisculteurs):
+def test_get_my_farm(aigrisculteurs):
 
     raisedError = None
 
     try:
-        aigrisculteurs.get_my_farm_json()
+        aigrisculteurs.get_my_farm()
     except Exception as ex:
         raisedError = True
         logging.debug(f"{ex} exception raised")
@@ -1400,7 +1402,7 @@ def test_get_my_farm_json(aigrisculteurs):
     }
 
     try:
-        aigrisculteurs.get_my_farm_json()
+        aigrisculteurs.get_my_farm()
     except Exception as ex:
         raisedError = True
         logging.debug(f"{ex} exception raised")
@@ -1629,7 +1631,7 @@ def test_get_my_farm_json(aigrisculteurs):
     raisedError = None
 
     try:
-        aigrisculteurs.get_my_farm_json()
+        aigrisculteurs.get_my_farm()
     except Exception as ex:
         raisedError = True
         logging.debug(f"{ex} exception raised")
@@ -1857,7 +1859,7 @@ def test_check_worker_availability(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     aigrisculteurs.hiring_workers(1)
     assert aigrisculteurs.check_worker_availability(1) == True
@@ -2084,7 +2086,7 @@ def test_send_worker_to_place(aigrisculteurs):
         ],
     }
     aigrisculteurs.game_data = game
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     aigrisculteurs.day = 0
 
     aigrisculteurs.hiring_workers(1)
@@ -2101,7 +2103,7 @@ def test_send_worker_to_place(aigrisculteurs):
     assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "3 ARROSER 1"
 
     aigrisculteurs.game_data = game_data
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     aigrisculteurs.hiring_workers(1)
     aigrisculteurs.send_worker_to_place(worker_id=4, place=2)
@@ -2113,7 +2115,7 @@ def test_send_worker_to_place(aigrisculteurs):
     aigrisculteurs.send_worker_to_place(worker_id=1, place=FACTORY_SOUPE)
 
     aigrisculteurs.game_data = game
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     aigrisculteurs.hiring_workers(1)
     aigrisculteurs.buy_tractors(1)
@@ -2380,7 +2382,7 @@ def test_get_vegetables_stock(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     logging.debug(aigrisculteurs.get_vegetables_stock())
     assert (aigrisculteurs.get_vegetables_stock()) == {
@@ -2606,7 +2608,7 @@ def test_get_vegetables_stock(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     assert (aigrisculteurs.get_vegetables_stock()) == {
         "POTATO": 1,
         "LEEK": 2,
@@ -3076,7 +3078,7 @@ def test_check_if_field_sown(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     assert aigrisculteurs.check_if_field_sown(1) == False
 
     aigrisculteurs.game_data = {
@@ -3294,7 +3296,7 @@ def test_check_if_field_sown(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     assert aigrisculteurs.check_if_field_sown(1) == False
 
     aigrisculteurs.game_data = {
@@ -3512,7 +3514,7 @@ def test_check_if_field_sown(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     assert aigrisculteurs.check_if_field_sown(1) == True
 
 
@@ -3732,7 +3734,7 @@ def test_worker_sow_vegetable_at_field(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     aigrisculteurs.hiring_workers(1)
     aigrisculteurs.worker_sow_vegetable_at_field(1, TOMATO[1], 1)
     assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "1 SEMER TOMATE 1"
@@ -3961,7 +3963,7 @@ def test_less_stocked_vegetable(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     logging.debug(
         f"Less stocked vegetables {aigrisculteurs.get_less_stocked_vegetable()}"
     )
@@ -4184,7 +4186,7 @@ def test_seed_less_stocked_vegetable(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     aigrisculteurs.hiring_workers(1)
     logging.debug(f"NUMBER OF EMPLOYEE {aigrisculteurs.actual_number_of_workers}")
 
@@ -4408,7 +4410,7 @@ def test_check_if_field_need_water(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     raisedError = None
 
@@ -4648,7 +4650,7 @@ def test_check_if_field_collectable(aigrisculteurs):
         ],
     }
 
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     assert aigrisculteurs.check_if_field_collectable(1) == False
     assert aigrisculteurs.check_if_field_collectable(2) == False
     assert aigrisculteurs.check_if_field_collectable(3) == False
@@ -4872,7 +4874,7 @@ def test_store_with_tractor(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     aigrisculteurs.hiring_workers(4)
     aigrisculteurs.buy_tractors(5)
     aigrisculteurs.my_farm["tractors"] = [
@@ -5115,7 +5117,7 @@ def test_new_day(aigrisculteurs):
             },
         ],
     }
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     aigrisculteurs.hiring_workers(3)
     aigrisculteurs.send_worker_to_place(worker_id=1, place=1)
     assert aigrisculteurs.check_worker_availability(1) == False
@@ -5125,7 +5127,7 @@ def test_new_day(aigrisculteurs):
 
 def test_send_group_to_place(aigrisculteurs):
     aigrisculteurs.game_data = game_data
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     aigrisculteurs.aigrisculteurs_commands.clear()
     aigrisculteurs.buy_fields(5)
     aigrisculteurs.hiring_workers(3)
@@ -5135,28 +5137,9 @@ def test_send_group_to_place(aigrisculteurs):
     assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "2 ARROSER 1"
 
 
-# def test_check_if_tractor_availaible(aigrisculteurs):
-#     aigrisculteurs.game_data = {'day': 0, 'greenhouse_gas': 0, 'events': [], 'farms': [{'blocked': False, 'name': 'aigrisculteurs', 'money': 100030, 'score': 100030, 'fields': [{'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD1'}, {'content': 'TOMATO', 'needed_water': 4, 'bought': False, 'location': 'FIELD2'}, {'content': 'LEEK', 'needed_water': 0, 'bought': True, 'location': 'FIELD3'}, {'content': 'POTATO', 'needed_water': 0, 'bought': True, 'location': 'FIELD4'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD5'}], 'tractors': [], 'loans': [], 'soup_factory': {'days_off': 0, 'stock': {'POTATO': 1, 'LEEK': 2, 'TOMATO': 3, 'ONION': 4, 'ZUCCHINI': 5}}, 'employees': [], 'events': []}, {'blocked': True, 'name': '', 'money': 100000, 'score': 100000, 'fields': [{'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD1'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD2'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD3'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD4'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD5'}], 'tractors': [], 'loans': [], 'soup_factory': {'days_off': 0, 'stock': {'POTATO': 0, 'LEEK': 0, 'TOMATO': 0, 'ONION': 0, 'ZUCCHINI': 0}}, 'employees': [], 'events': []}, {'blocked': True, 'name': '', 'money': 100000, 'score': 100000, 'fields': [{'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD1'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD2'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD3'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD4'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD5'}], 'tractors': [], 'loans': [], 'soup_factory': {'days_off': 0, 'stock': {'POTATO': 0, 'LEEK': 0, 'TOMATO': 0, 'ONION': 0, 'ZUCCHINI': 0}}, 'employees': [], 'events': []}, {'blocked': True, 'name': '', 'money': 100000, 'score': 100000, 'fields': [{'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD1'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD2'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD3'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD4'}, {'content': 'NONE', 'needed_water': 0, 'bought': False, 'location': 'FIELD5'}], 'tractors': [], 'loans': [], 'soup_factory': {'days_off': 0, 'stock': {'POTATO': 0, 'LEEK': 0, 'TOMATO': 0, 'ONION': 0, 'ZUCCHINI': 0}}, 'employees': [], 'events': []}]}
-#     aigrisculteurs.get_my_farm_json()
-#     aigrisculteurs.my_farm['tractors'] = [{"location": "FARM", "id": 1}, {"location": "FARM", "id": 2}, {"location": "FARM", "id": 3}]
-#     aigrisculteurs.day = 0
-#     # aigrisculteurs.aigrisculteurs_commands.clear()
-#     aigrisculteurs.buy_fields(5)
-#     aigrisculteurs.hiring_workers(3)
-#     aigrisculteurs.buy_tractors(3)
-#     assert (aigrisculteurs.check_if_tractor_available(1) == True)
-#     aigrisculteurs.send_worker_to_place(worker_id = 1, tractor_id = 1, field_to_collect = 3)
-#     # logging.warning(f'tractor_data : {aigrisculteurs.tractor_data}')
-#     logging.warning(f'PREVIOUS ACTIONS :  {aigrisculteurs.aigrisculteurs_commands}')
-#     logging.warning(f"Is tractor avaiable : {aigrisculteurs.tractor_data[0][LOCATION]}")
-#     assert (aigrisculteurs.check_if_tractor_available(1) == False)
-
-# def test_update_tractor_position():
-
-
 def test_run_not_crashing(aigrisculteurs):
     aigrisculteurs.game_data = game_data
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     for day in range(0, 1800):
         logging.info(f"--DAY {day}--")
         aigrisculteurs.day = day
@@ -5170,7 +5153,7 @@ def test_run_not_crashing(aigrisculteurs):
 
 def test_run_crashing(aigrisculteurs):
     aigrisculteurs.game_data = game_data
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     for day in range(0, 1800):
         logging.info(f"--DAY {day}--")
         aigrisculteurs.day = day
@@ -5184,7 +5167,7 @@ def test_run_crashing(aigrisculteurs):
 
 def test_set_number_of_busy_day_for_tractor(aigrisculteurs):
     aigrisculteurs.game_data = game_data
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
 
     aigrisculteurs.buy_tractors(5)
 
@@ -5217,7 +5200,7 @@ def test_set_number_of_busy_day_for_tractor(aigrisculteurs):
     assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 3
     # == TRACTOR_BUSY_DAY_FROM_FACTORY[f"FIELD{field_id}"]
 
-    tractor_id, field_id = 3, 4
+    tractor_id, field_id = 3, 5
     aigrisculteurs.set_number_of_busy_day_for_tractor(tractor_id, field_id)
     assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 1
     # == TRACTOR_BUSY_DAY_FROM_FACTORY[f"FIELD{field_id}"]
@@ -5225,12 +5208,12 @@ def test_set_number_of_busy_day_for_tractor(aigrisculteurs):
 
 def test_update_number_of_busy_day_for_tractor(aigrisculteurs):
     aigrisculteurs.game_data = game_data
-    aigrisculteurs.get_my_farm_json()
+    aigrisculteurs.get_my_farm()
     aigrisculteurs.buy_tractors(5)
     tractor_id, field_id = 1, 3
     aigrisculteurs.set_number_of_busy_day_for_tractor(tractor_id, field_id)
     aigrisculteurs.update_number_of_busy_day_for_tractor()
-    assert aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY] == 0
+    assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 0
 
     tractor_id, field_id = 4, 1
     aigrisculteurs.set_number_of_busy_day_for_tractor(tractor_id, field_id)
@@ -5242,3 +5225,60 @@ def test_update_number_of_busy_day_for_tractor(aigrisculteurs):
     assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 0
     aigrisculteurs.update_number_of_busy_day_for_tractor()
     assert (aigrisculteurs.tractor_data[tractor_id - 1][N_BUSY_DAY]) == 0
+
+
+def test_update_local_day(aigrisculteurs):
+    # aigrisculteurs.game_data = game_data
+    # aigrisculteurs.get_my_farm()
+    aigrisculteurs.day = 1
+    aigrisculteurs.update_local_day()
+    assert (aigrisculteurs.local_day) == 1
+
+    aigrisculteurs.day = 23
+    aigrisculteurs.local_day = 0
+    for _ in range(aigrisculteurs.day):
+        aigrisculteurs.update_local_day()
+    assert (aigrisculteurs.local_day) == 23
+
+    aigrisculteurs.day = LAYOFF_DAY
+    aigrisculteurs.local_day = 0
+    for _ in range(aigrisculteurs.day):
+        aigrisculteurs.update_local_day()
+    assert (aigrisculteurs.local_day) == 0
+
+
+def test_fire_workers(aigrisculteurs):
+    aigrisculteurs.game_data = game_data
+    aigrisculteurs.get_my_farm()
+
+    aigrisculteurs.hiring_workers(12)
+    aigrisculteurs.buy_fields(1)
+    aigrisculteurs.buy_tractors(1)
+    for id in range(1, 12):
+        aigrisculteurs.send_worker_to_place(worker_id=id, place=1)
+    aigrisculteurs.send_worker_to_place(worker_id=12, tractor_id=1, field_to_collect=1)
+    logging.info(f"my farm : {aigrisculteurs.my_farm[WORKERS]}")
+    logging.info(f"my farm : {aigrisculteurs.my_farm[WORKERS][11]}")
+    logging.info(f"my farm : {aigrisculteurs.my_farm[WORKERS][12]}")
+    aigrisculteurs.fire_workers()
+    assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "0 LICENCIER 11"
+
+
+def test_sell_field(aigrisculteurs):
+
+    raisedError = None
+    try:
+        aigrisculteurs.sell_field(field_id=8)
+    except Exception as ex:
+        raisedError = True
+        logging.debug(f"{ex} exception raised")
+    else:
+        raisedError = False
+        logging.debug("TypeError exception not raised")
+    assert raisedError == True
+
+    aigrisculteurs.sell_field(field_id=3)
+    assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "0 VENDRE 3"
+
+    aigrisculteurs.sell_field(field_id=1)
+    assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "0 VENDRE 1"
