@@ -27,3 +27,13 @@ VEGETABLES = {
     "ONION": "OIGNON",
     "ZUCCHINI": "COURGETTE",
 }
+
+N_BUSY_DAY = "n_busy_day"
+
+TRACTOR_BUSY_DAY_FROM_FACTORY = {
+    "FIELD1": 3,
+    "FIELD2": 3,
+    "FIELD3": 1,
+    "FIELD4": 1,
+    "FIELD5": 1,
+}

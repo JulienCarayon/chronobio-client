@@ -20,6 +20,8 @@ from src.constants import (
     # ONION,
     # ZUCCHINI,
     VEGETABLES,
+    N_BUSY_DAY,
+    TRACTOR_BUSY_DAY_FROM_FACTORY,
 )
 
 logging.basicConfig(
@@ -112,6 +114,9 @@ class Aigrisculteurs:
 
             elif self.day == 3:
                 self.new_day()
+                self.send_worker_to_place(
+                    field_to_collect=2, worker_id=37, tractor_id=4
+                )
                 self.send_group_to_place(
                     workers_id_start=1, workers_id_length=11, place=1
                 )
@@ -197,7 +202,7 @@ class Aigrisculteurs:
     def new_day(self):
         self.worker_daily_task_new_day()
         # self.update_tractors_position()
-
+        self.update_number_of_busy_day_for_tractor()
         logging.info(f"--DAY {self.game_data['day']}--{self.game_data}")
 
     def buy_fields(self, n_fields_to_buy):
@@ -218,7 +223,7 @@ class Aigrisculteurs:
                 1  # Ignoring first list item for easy management
             )
             self.tractor_data.append(
-                {"worker": None, LOCATION: FARM, "destination": "None"}
+                {"worker": None, LOCATION: FARM, "destination": "None", N_BUSY_DAY: 0}
             )
             self.my_farm[TRACTORS].append(
                 {"location": "FARM", "id": self.actual_number_of_tractors}
@@ -398,9 +403,8 @@ class Aigrisculteurs:
                     if (
                         self.tractor_data[tractor_id - 1].get(WORKER)
                         == worker_id  # noqa: E501
-                        or self.tractor_data[tractor_id - 1].get(WORKER)
-                        is None  # noqa: E501
-                    ):
+                        or self.tractor_data[tractor_id - 1].get(WORKER) is None
+                    ) and self.tractor_data[tractor_id - 1][N_BUSY_DAY] == 0:
                         logging.debug(
                             f"WORKER {worker_id} STORED {field_id} WITH {tractor_id}"  # noqa: E501
                         )
@@ -410,6 +414,7 @@ class Aigrisculteurs:
                             1
                         ]
                         self.tractor_data[tractor_id - 1][WORKER] = worker_id
+                        self.set_number_of_busy_day_for_tractor(tractor_id, field_id)
                         self.my_farm[FIELDS][field_id - 1][
                             "already_collected"
                         ] = True  # noqa: E501
@@ -424,12 +429,38 @@ class Aigrisculteurs:
             else:
                 logging.warning(f"TRACTOR {tractor_id} not available")
 
+    def set_number_of_busy_day_for_tractor(
+        self: "Aigrisculteurs", tractor_id, field_id
+    ):
+        if 1 <= tractor_id <= self.actual_number_of_tractors:
+            if 1 <= field_id <= MAXIMUM_FIELDS_NUMBER:
+                logging.debug(
+                    f"TRACTOR {tractor_id} needed {TRACTOR_BUSY_DAY_FROM_FACTORY[f'FIELD{field_id}']} day(s) to go at {field_id}"  # noqa: E501
+                )
+                self.tractor_data[tractor_id - 1][
+                    N_BUSY_DAY
+                ] = TRACTOR_BUSY_DAY_FROM_FACTORY[f"FIELD{field_id}"]
+            else:
+                raise ValueError(f"Field id {field_id} not in range : 1 - 5")
+        else:
+            raise ValueError(
+                f"Tractor id {tractor_id} not in range of actual tractors_id : 1 - {self.actual_number_of_tractors} "  # noqa: E501
+            )
+
+    def update_number_of_busy_day_for_tractor(self: "Aigrisculteurs"):
+        for tractor in range(1, self.actual_number_of_tractors + 1):
+            if int(self.tractor_data[tractor - 1][N_BUSY_DAY]) > 0:
+                self.tractor_data[tractor - 1][N_BUSY_DAY] -= 1
+            else:
+                logging.warning(f"TRACTOR {tractor} already available")
+
     def check_if_tractor_available(self, tractor_id):
         self.update_tractors_position()
         if tractor_id <= self.actual_number_of_tractors:
             if (
                 self.tractor_data[tractor_id - 1][LOCATION] == FACTORY_STOCK[1]
                 or self.tractor_data[tractor_id - 1][LOCATION] == FARM
+                or self.tractor_data[tractor_id - 1][N_BUSY_DAY] == 0
             ):
                 return True
         else:
