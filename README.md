@@ -1,6 +1,13 @@
 # Teams AigrisCulteurs
 <img src="Documents/image/aigriculteur.jpg" alt="3 BG aigrisculteurs"  width="350">
 
+<div align="center">
+  </br>
+  <img src="Documents/image/aigriculteur.png" alt="Game name" width="600" height="100">
+  </br></br>
+</div>
+
+
 #### Client for the Python game made by @vpoulailleau
 
 ## Mise en place des tests
