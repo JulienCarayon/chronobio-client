@@ -1,4 +1,5 @@
 # Teams AigrisCulteurs
+<img src="Documents/image/aigriculteur.jpg" alt="3 BG aigrisculteurs"  width="350">
 
 #### Client for the Python game made by @vpoulailleau
 
