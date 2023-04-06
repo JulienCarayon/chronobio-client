@@ -2,7 +2,7 @@ import argparse
 from typing import NoReturn
 
 from chronobio.network.client import Client
-from src.best_startegy_ever import Aigrisculteurs
+from src.best_strategy_ever import Aigrisculteurs
 
 
 class PlayerGameClient(Client):

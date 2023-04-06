@@ -100,4 +100,11 @@ Nous avons calculé le coût de revient réel pour une production de soupe de 5 
 En théorie nous pouvons donc obtenir au maximum sans intempérie ```8 633 109€```
 ###### Pour voir le cacul merci de se référer au document suivant : [Documents/Benefices_Production_Soupe_Théorique](./Documents/Benefices_Production_Soupe_Théorique.xlsx)
 
+<<<<<<< HEAD
 
+=======
+use a venv using :
+```
+python -m venv venv
+```
+>>>>>>> 073bc86a505fc2a3056c4eb8d3c418e6188f13cb
