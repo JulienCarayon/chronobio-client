@@ -1,12 +1,12 @@
-# Teams AigrisCulteurs
+# Teams AigrisCulteurs 
+##### Client for the Python game made by @vpoulailleau
 <div align="center">
   </br>
   <img src="Documents/Image/aigriculteur.png" alt="Game name" width="600">
   </br></br>
 </div>
 
-
-#### Client for the Python game made by @vpoulailleau
+#### Petit jeu: Trouvez les 5 soupes !!!!
 
 ## Mise en place des tests
 #### Intaller pytest sur votre machine
