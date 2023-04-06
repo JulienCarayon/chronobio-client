@@ -1,14 +1,13 @@
-# chronobio-client
+# Teams AigrisCulteurs
 
-Client for the Python game made by @vpoulailleau
-## Teams AigrisCulteurs
+#### Client for the Python game made by @vpoulailleau
 
-### How to use ?
+## Mise en place des tests
+#### Intaller pytest sur votre machine
+Travailler sur l'environnement virtuel : ```python -m venv venv```
 
-use a venv using : 
-```
-python -m venv venv
-```
+#### Installation de pytest :
+```pip install -u pytest```
 
 ## Théorie VS Pratique
 
@@ -32,7 +31,7 @@ Pour la gestion des employés nous avons opté pour la stratégie suivante:
 ## Gestion des licenciement
 Pour la gestion des licenciements nous avons fait une simulation sur plusieurs durées tels que 6 mois, 7 mois, 1an, 2ans...
 Au final lors de cette simulation de coût nous en avons déduit que le cout de revient optimal est une gestion de licenciement sur une durée de ```1 an et 3 mois```.
-###### Pour voir le cacul merci de se référer au document suivant : [Documents/Gestion_Strategie_Licenciement](./Gestion_Strategie_Licenciement.xlsx)
+###### Pour voir le cacul merci de se référer au document suivant : [Documents/Gestion_Strategie_Licenciement](./Documents/Gestion_Strategie_Licenciement.xlsx)
 
 ## Gestion des déplacements
 ### Pattern stratégie
@@ -88,6 +87,6 @@ Soit pour une production de soupe de 5 légumes une consommation de ```19600 lé
 
 Nous avons calculé le coût de revient réel pour une production de soupe de 5 légumes avec 8 employés à l'usine.
 En théorie nous pouvons donc obtenir au maximum sans intempérie ```8 633 109€```
-###### Pour voir le cacul merci de se référer au document suivant : [Documents/Benefices_Production_Soupe_Théorique](./Benefices_Production_Soupe_Théorique.xlsx)
+###### Pour voir le cacul merci de se référer au document suivant : [Documents/Benefices_Production_Soupe_Théorique](./Documents/Benefices_Production_Soupe_Théorique.xlsx)
 
 
