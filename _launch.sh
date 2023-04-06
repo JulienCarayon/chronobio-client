@@ -59,9 +59,7 @@ if [ "$TROLLED" -eq 0 ]; then
     # echo LS : $(ls)
 
 else
-    if test -f "$TROLLED_FILE"; then
-        rm TROLLED
-    fi
+    rm TROLLED
     cd aigrisculteurs
     python3 -m src.aigrisculteurs_client -a 127.0.0.1 -p $1 -u aigrisculteurs
 fi
