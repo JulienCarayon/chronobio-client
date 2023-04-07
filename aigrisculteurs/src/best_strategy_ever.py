@@ -190,7 +190,7 @@ class Aigrisculteurs:
                     if self.flag_help_cooker is True:
                         self.send_group_to_place(
                             workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][2],
-                            workers_id_length=NUMBER_OF_COOKER,
+                            workers_id_length=11,
                             place=FACTORY_SOUPE,
                         )
                     else:
@@ -286,7 +286,7 @@ class Aigrisculteurs:
 
     def go_to_cook(self: "Aigrisculteurs"):
         vegetable_stock = self.get_vegetables_stock()
-        if 50_000 < min(vegetable_stock.values()):
+        if 20_000 < min(vegetable_stock.values()):
             self.flag_help_cooker = True
         else:
             self.flag_help_cooker = False
