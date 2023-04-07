@@ -4188,7 +4188,8 @@ def test_seed_less_stocked_vegetable(aigrisculteurs):
     }
     aigrisculteurs.get_my_farm()
     aigrisculteurs.hiring_workers(1)
-    logging.debug(f"NUMBER OF EMPLOYEE {aigrisculteurs.actual_number_of_workers}")
+    logging.debug(
+        f"NUMBER OF EMPLOYEE {aigrisculteurs.actual_number_of_workers}")
 
     aigrisculteurs.seed_less_stocked_vegetable(1, 1)
     assert aigrisculteurs.aigrisculteurs_commands[-1] == "1 SEMER PATATE 1"
@@ -5132,7 +5133,8 @@ def test_send_group_to_place(aigrisculteurs):
     aigrisculteurs.buy_fields(5)
     aigrisculteurs.hiring_workers(3)
     aigrisculteurs.send_group_to_place(1, 2, 1)
-    logging.debug(f"PREVIOUS ACTIONS :  {aigrisculteurs.aigrisculteurs_commands}")
+    logging.debug(
+        f"PREVIOUS ACTIONS :  {aigrisculteurs.aigrisculteurs_commands}")
     logging.debug(f"FIELD 1 SOWN ? {aigrisculteurs.check_if_field_sown(1)}")
     assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "2 ARROSER 1"
 
@@ -5254,7 +5256,8 @@ def test_fire_workers(aigrisculteurs):
     aigrisculteurs.buy_tractors(1)
     for id in range(1, 12):
         aigrisculteurs.send_worker_to_place(worker_id=id, place=1)
-    aigrisculteurs.send_worker_to_place(worker_id=12, tractor_id=1, field_to_collect=1)
+    aigrisculteurs.send_worker_to_place(
+        worker_id=12, tractor_id=1, field_to_collect=1)
     aigrisculteurs.fire_workers()
     assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "0 LICENCIER 11"
 
@@ -5276,3 +5279,443 @@ def test_sell_field(aigrisculteurs):
 
     aigrisculteurs.sell_field(field_id=1)
     assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "0 VENDRE 1"
+
+
+def test_go_to_cook(aigrisculteurs):
+    aigrisculteurs.game_data = {
+        "day": 0,
+        "greenhouse_gas": 0,
+        "events": [],
+        "farms": [
+            {
+                "blocked": False,
+                "name": "aigrisculteurs",
+                "money": 100030,
+                "score": 100030,
+                "fields": [
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD1",
+                    },
+                    {
+                        "content": "TOMATO",
+                        "needed_water": 4,
+                        "bought": False,
+                        "location": "FIELD2",
+                    },
+                    {
+                        "content": "LEEK",
+                        "needed_water": 0,
+                        "bought": True,
+                        "location": "FIELD3",
+                    },
+                    {
+                        "content": "POTATO",
+                        "needed_water": 0,
+                        "bought": True,
+                        "location": "FIELD4",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD5",
+                    },
+                ],
+                "tractors": [],
+                "loans": [],
+                "soup_factory": {
+                    "days_off": 0,
+                    "stock": {
+                        "POTATO": 1,
+                        "LEEK": 2,
+                        "TOMATO": 3,
+                        "ONION": 4,
+                        "ZUCCHINI": 5,
+                    },
+                },
+                "employees": [],
+                "events": [],
+            },
+            {
+                "blocked": True,
+                "name": "",
+                "money": 100000,
+                "score": 100000,
+                "fields": [
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD1",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD2",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD3",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD4",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD5",
+                    },
+                ],
+                "tractors": [],
+                "loans": [],
+                "soup_factory": {
+                    "days_off": 0,
+                    "stock": {
+                        "POTATO": 0,
+                        "LEEK": 0,
+                        "TOMATO": 0,
+                        "ONION": 0,
+                        "ZUCCHINI": 0,
+                    },
+                },
+                "employees": [],
+                "events": [],
+            },
+            {
+                "blocked": True,
+                "name": "",
+                "money": 100000,
+                "score": 100000,
+                "fields": [
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD1",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD2",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD3",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD4",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD5",
+                    },
+                ],
+                "tractors": [],
+                "loans": [],
+                "soup_factory": {
+                    "days_off": 0,
+                    "stock": {
+                        "POTATO": 0,
+                        "LEEK": 0,
+                        "TOMATO": 0,
+                        "ONION": 0,
+                        "ZUCCHINI": 0,
+                    },
+                },
+                "employees": [],
+                "events": [],
+            },
+            {
+                "blocked": True,
+                "name": "",
+                "money": 100000,
+                "score": 100000,
+                "fields": [
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD1",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD2",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD3",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD4",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD5",
+                    },
+                ],
+                "tractors": [],
+                "loans": [],
+                "soup_factory": {
+                    "days_off": 0,
+                    "stock": {
+                        "POTATO": 0,
+                        "LEEK": 0,
+                        "TOMATO": 0,
+                        "ONION": 0,
+                        "ZUCCHINI": 0,
+                    },
+                },
+                "employees": [],
+                "events": [],
+            },
+        ],
+    }
+    aigrisculteurs.get_my_farm()
+    aigrisculteurs.go_to_cook()
+    assert (aigrisculteurs.flag_help_cooker) == False
+
+    aigrisculteurs.game_data = {
+        "day": 0,
+        "greenhouse_gas": 0,
+        "events": [],
+        "farms": [
+            {
+                "blocked": False,
+                "name": "aigrisculteurs",
+                "money": 100030,
+                "score": 100030,
+                "fields": [
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD1",
+                    },
+                    {
+                        "content": "TOMATO",
+                        "needed_water": 4,
+                        "bought": False,
+                        "location": "FIELD2",
+                    },
+                    {
+                        "content": "LEEK",
+                        "needed_water": 0,
+                        "bought": True,
+                        "location": "FIELD3",
+                    },
+                    {
+                        "content": "POTATO",
+                        "needed_water": 0,
+                        "bought": True,
+                        "location": "FIELD4",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD5",
+                    },
+                ],
+                "tractors": [],
+                "loans": [],
+                "soup_factory": {
+                    "days_off": 0,
+                    "stock": {
+                        "POTATO": 55_000,
+                        "LEEK": 55_000,
+                        "TOMATO": 55_000,
+                        "ONION": 55_000,
+                        "ZUCCHINI": 55_000,
+                    },
+                },
+                "employees": [],
+                "events": [],
+            },
+            {
+                "blocked": True,
+                "name": "",
+                "money": 100000,
+                "score": 100000,
+                "fields": [
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD1",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD2",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD3",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD4",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD5",
+                    },
+                ],
+                "tractors": [],
+                "loans": [],
+                "soup_factory": {
+                    "days_off": 0,
+                    "stock": {
+                        "POTATO": 0,
+                        "LEEK": 0,
+                        "TOMATO": 0,
+                        "ONION": 0,
+                        "ZUCCHINI": 0,
+                    },
+                },
+                "employees": [],
+                "events": [],
+            },
+            {
+                "blocked": True,
+                "name": "",
+                "money": 100000,
+                "score": 100000,
+                "fields": [
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD1",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD2",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD3",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD4",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD5",
+                    },
+                ],
+                "tractors": [],
+                "loans": [],
+                "soup_factory": {
+                    "days_off": 0,
+                    "stock": {
+                        "POTATO": 0,
+                        "LEEK": 0,
+                        "TOMATO": 0,
+                        "ONION": 0,
+                        "ZUCCHINI": 0,
+                    },
+                },
+                "employees": [],
+                "events": [],
+            },
+            {
+                "blocked": True,
+                "name": "",
+                "money": 100000,
+                "score": 100000,
+                "fields": [
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD1",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD2",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD3",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD4",
+                    },
+                    {
+                        "content": "NONE",
+                        "needed_water": 0,
+                        "bought": False,
+                        "location": "FIELD5",
+                    },
+                ],
+                "tractors": [],
+                "loans": [],
+                "soup_factory": {
+                    "days_off": 0,
+                    "stock": {
+                        "POTATO": 0,
+                        "LEEK": 0,
+                        "TOMATO": 0,
+                        "ONION": 0,
+                        "ZUCCHINI": 0,
+                    },
+                },
+                "employees": [],
+                "events": [],
+            },
+        ],
+    }
+    aigrisculteurs.get_my_farm()
+    aigrisculteurs.go_to_cook()
+    assert (aigrisculteurs.flag_help_cooker) == True

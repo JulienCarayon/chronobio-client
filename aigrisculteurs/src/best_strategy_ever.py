@@ -54,6 +54,7 @@ class Aigrisculteurs:
         self.testing = False
         self.day_bool = True
         self.local_day = 0
+        self.flag_help_cooker = False
         self.new_hiring_period = 0
 
     def get_my_farm(self: "Aigrisculteurs", my_farm_name: str = "aigrisculteurs"):
@@ -186,11 +187,18 @@ class Aigrisculteurs:
                         workers_id_length=11,
                         place=3,
                     )
-                    self.send_group_to_place(
-                        workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][2],
-                        workers_id_length=11,
-                        place=5,
-                    )
+                    if self.flag_help_cooker is True:
+                        self.send_group_to_place(
+                            workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][2],
+                            workers_id_length=11,
+                            place=5,
+                        )
+                    else:
+                        self.send_group_to_place(
+                            workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][3],
+                            workers_id_length=NUMBER_OF_COOKER,
+                            place=FACTORY_SOUPE,
+                        )
                     self.send_worker_to_place(field_to_collect=4, tractor_id=3)
                     if self.local_day > 6 and self.local_day % 4 != 2:
                         self.send_group_to_place(
@@ -198,7 +206,8 @@ class Aigrisculteurs:
                             workers_id_length=11,
                             place=2,
                         )
-                        self.send_worker_to_place(field_to_collect=1, tractor_id=1)
+                        self.send_worker_to_place(
+                            field_to_collect=1, tractor_id=1)
 
                 elif self.local_day > 5 and self.local_day % 2 != 0:
                     self.new_day()
@@ -217,7 +226,8 @@ class Aigrisculteurs:
                         )
                         self.day_bool = False
                     elif self.day_bool is False:
-                        self.send_worker_to_place(field_to_collect=2, tractor_id=2)
+                        self.send_worker_to_place(
+                            field_to_collect=2, tractor_id=2)
                         self.day_bool = True
 
             if self.local_day > 6:
@@ -228,7 +238,8 @@ class Aigrisculteurs:
                 )
 
             if self.day == 30:
-                logging.info(f"STOCK BOY : {self.my_farm[FACTORY_SOUPE[0]][STOCK]}")
+                logging.info(
+                    f"STOCK BOY : {self.my_farm[FACTORY_SOUPE[0]][STOCK]}")
 
             if self.my_farm["blocked"] is True:
                 logging.error("GAME BLOCKED")
@@ -245,6 +256,7 @@ class Aigrisculteurs:
         self.worker_daily_task_new_day()
         self.update_number_of_busy_day_for_tractor()
         self.update_tractor_position()
+        self.go_to_cook()
         logging.info(f"--DAY {self.game_data['day']}--{self.game_data}")
 
     def update_local_day(self: "Aigrisculteurs"):
@@ -278,14 +290,18 @@ class Aigrisculteurs:
             f"NUMBER OF WORKER AFTER LAYOFF DAY : {self.actual_number_of_workers}"
         )
 
+    def go_to_cook(self: "Aigrisculteurs"):
+        vegetable_stock = self.get_vegetables_stock()
+        if min(vegetable_stock.values()) > 50_000:
+            self.flag_help_cooker = True
+        else:
+            self.flag_help_cooker = False
+
     def sell_field(self: "Aigrisculteurs", field_id=0):
         if 1 <= field_id <= MAXIMUM_FIELDS_NUMBER:
             self.add_command(f"0 VENDRE {field_id}")
         else:
             raise ValueError(f"Field not in range 1 - 5 : {field_id}")
-
-    def check_soup_factory_status(self: "Aigrisculteurs"):
-        pass
 
     def buy_fields(self: "Aigrisculteurs", n_fields_to_buy: int):
         if (n_fields_to_buy > MAXIMUM_FIELDS_NUMBER) or (
@@ -305,7 +321,8 @@ class Aigrisculteurs:
                 1  # Ignoring first list item for easy management
             )
             self.tractor_data.append(
-                {"worker": None, LOCATION: FARM, "destination": "None", N_BUSY_DAY: 0}
+                {"worker": None, LOCATION: FARM,
+                    "destination": "None", N_BUSY_DAY: 0}
             )
             self.my_farm[TRACTORS].append(
                 {"location": "FARM", "id": self.actual_number_of_tractors}
@@ -353,7 +370,8 @@ class Aigrisculteurs:
 
     def check_if_field_need_water(self: "Aigrisculteurs", field_id):
         if 1 <= field_id <= 5:
-            need_water = self.my_farm[FIELDS][field_id - 1].get(NEEDED_WATER) > 0
+            need_water = self.my_farm[FIELDS][field_id -
+                                              1].get(NEEDED_WATER) > 0
             if need_water and self.check_if_field_sown(field_id):
                 return True
             else:
@@ -438,7 +456,8 @@ class Aigrisculteurs:
             )
             if self.check_if_field_sown(int(place)):
                 self.water_field(worker_id, int(place))
-                logging.debug(f"WORKER STATUS: worker{worker_id} watered field{place}")
+                logging.debug(
+                    f"WORKER STATUS: worker{worker_id} watered field{place}")
             else:
                 logging.debug(
                     "WORKER STATUS: worker %d seeded %s on field %s",
@@ -497,9 +516,11 @@ class Aigrisculteurs:
         if worker_available:
             if tractor_available:
                 if field_collectable:
-                    logging.debug(f"TRACTOR : {tractor_id} with worker{worker_id}")
+                    logging.debug(
+                        f"TRACTOR : {tractor_id} with worker{worker_id}")
                     if (
-                        self.tractor_data[tractor_id - 1].get(WORKER) == worker_id
+                        self.tractor_data[tractor_id -
+                                          1].get(WORKER) == worker_id
                         or self.tractor_data[tractor_id - 1].get(WORKER) is None
                     ) and self.tractor_data[tractor_id - 1][N_BUSY_DAY] == 0:
                         logging.debug(
@@ -509,12 +530,15 @@ class Aigrisculteurs:
                             1
                         ]
                         self.tractor_data[tractor_id - 1][WORKER] = worker_id
-                        self.set_number_of_busy_day_for_tractor(tractor_id, field_id)
-                        self.my_farm[FIELDS][field_id - 1]["already_collected"] = True
+                        self.set_number_of_busy_day_for_tractor(
+                            tractor_id, field_id)
+                        self.my_farm[FIELDS][field_id -
+                                             1]["already_collected"] = True
                         self.my_farm[FIELDS][field_id - 1][CONTENT] = "NONE"
 
                         self.worker_daily_task[f"worker{worker_id}"] = "STOCKER"
-                        self.add_command(f"{worker_id} STOCKER {field_id} {tractor_id}")
+                        self.add_command(
+                            f"{worker_id} STOCKER {field_id} {tractor_id}")
                 else:
                     logging.warning(f"FIELD {field_id} not collectable")
             else:
