@@ -56,7 +56,7 @@ Nous avons opté pour un achat des 5 champ soit une dépense de 50 000€ et un 
 ### Gestion des employés
 Pour la gestion des employés nous avons opté pour la stratégie suivante:
 - Licenciement le 29 du mois 
-- Embauche le 29 du mois --> employés présent le jour 0
+- Embauche le 29 du mois --> employés présent le jour 0 sur les champs
 
 ### Gestion des licenciement
 Pour la gestion des licenciements nous avons fait une simulation sur plusieurs durées tels que 6 mois, 7 mois, 1an, 2ans...
@@ -108,13 +108,17 @@ Les 8 cuisiniers produisent en permanence des soupes.
 ### Gestion de la production soupe
 Dans un premier temps nous avons déterminer le nombre de légumes qu'on arrive à stocker au moins. Afin de pouvoir déterminer au mieux le nombre d'meployé nécessaire.
 Pour notre groupe nous produisons :```106 000 légumes```
-Soit pour une production de soupe de 5 légumes une consommation de ```21 200 légumes``` nous avons donc une nécessité de 8 employés :
+Soit pour une production de soupe de 5 légumes une consommation de ```21 200 légumes``` nous avons donc une nécessité de 8 employés afin d'exploité au mieux le rendement de l'usine :
 
 | nb employés |     production soupe 1 jour     |    Production soupe 1 mois    | 
 |-------------|---------------------------------|-------------------------------|
+|      7      |               700               |              21000            |
 |      8      |               800               |              24000            |
 		
 
 Nous avons calculé le coût de revient réel pour une production de soupe de 5 légumes avec 8 employés à l'usine.
-En théorie nous pouvons donc obtenir au maximum sans intempérie ```8 633 109€```
+En théorie nous pouvons donc obtenir au maximum sans intempérie ```8 633 109```
 ###### Pour voir le cacul merci de se référer au document suivant : [Documents/Benefices_Production_Soupe_Théorique](./Documents/Benefices_Production_Soupe_Théorique.xlsx)
+
+En local en suivant cette stratégie nous avons un record à : ```8 534 943```
+En réseau en suivant cette stratégie nous avons un record à : ```8 156 643```
