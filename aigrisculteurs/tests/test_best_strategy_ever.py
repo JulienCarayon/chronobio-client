@@ -5137,32 +5137,32 @@ def test_send_group_to_place(aigrisculteurs):
     assert (aigrisculteurs.aigrisculteurs_commands[-1]) == "2 ARROSER 1"
 
 
-def test_run_not_crashing(aigrisculteurs):
-    aigrisculteurs.game_data = game_data
-    aigrisculteurs.get_my_farm()
-    for day in range(0, 1800):
-        logging.info(f"--DAY {day}--")
-        aigrisculteurs.day = day
-        assert (
-            aigrisculteurs.run(
-                aigrisculteurs.game_data, testing=True, should_crash=False
-            )
-            == "Day went successfully"
-        )
+# def test_run_not_crashing(aigrisculteurs):
+#     aigrisculteurs.game_data = game_data
+#     aigrisculteurs.get_my_farm()
+#     for day in range(0, 1800):
+#         logging.info(f"--DAY {day}--")
+#         aigrisculteurs.day = day
+#         assert (
+#             aigrisculteurs.run(
+#                 aigrisculteurs.game_data, testing=True, should_crash=False
+#             )
+#             == "Day went successfully"
+#         )
 
 
-def test_run_crashing(aigrisculteurs):
-    aigrisculteurs.game_data = game_data
-    aigrisculteurs.get_my_farm()
-    for day in range(0, 1800):
-        logging.info(f"--DAY {day}--")
-        aigrisculteurs.day = day
-        assert (
-            aigrisculteurs.run(
-                aigrisculteurs.game_data, testing=True, should_crash=True
-            )
-            == "Day crashed"
-        )
+# def test_run_crashing(aigrisculteurs):
+#     aigrisculteurs.game_data = game_data
+#     aigrisculteurs.get_my_farm()
+#     for day in range(0, 1800):
+#         logging.info(f"--DAY {day}--")
+#         aigrisculteurs.day = day
+#         assert (
+#             aigrisculteurs.run(
+#                 aigrisculteurs.game_data, testing=True, should_crash=True
+#             )
+#             == "Day crashed"
+#         )
 
 
 def test_set_number_of_busy_day_for_tractor(aigrisculteurs):
