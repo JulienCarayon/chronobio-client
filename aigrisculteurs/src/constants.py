@@ -11,6 +11,8 @@ FARM = "FARM"
 LAYOFF_DAY = 450
 NUMBER_OF_COOKER = 8
 
+LOAN_AMOUNT = 69_970
+
 STOCK = "stock"
 NEEDED_WATER = "needed_water"
 FACTORY_SOUPE = ("soup_factory", "CUISINER", "SOUP_FACTORY")
