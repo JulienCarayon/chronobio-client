@@ -206,8 +206,7 @@ class Aigrisculteurs:
                             workers_id_length=11,
                             place=2,
                         )
-                        self.send_worker_to_place(
-                            field_to_collect=1, tractor_id=1)
+                        self.send_worker_to_place(field_to_collect=1, tractor_id=1)
 
                 elif self.local_day > 5 and self.local_day % 2 != 0:
                     self.new_day()
@@ -226,8 +225,7 @@ class Aigrisculteurs:
                         )
                         self.day_bool = False
                     elif self.day_bool is False:
-                        self.send_worker_to_place(
-                            field_to_collect=2, tractor_id=2)
+                        self.send_worker_to_place(field_to_collect=2, tractor_id=2)
                         self.day_bool = True
 
             if self.local_day > 6:
@@ -317,8 +315,7 @@ class Aigrisculteurs:
                 1  # Ignoring first list item for easy management
             )
             self.tractor_data.append(
-                {"worker": None, LOCATION: FARM,
-                    "destination": "None", N_BUSY_DAY: 0}
+                {"worker": None, LOCATION: FARM, "destination": "None", N_BUSY_DAY: 0}
             )
             self.my_farm[TRACTORS].append(
                 {"location": "FARM", "id": self.actual_number_of_tractors}
@@ -366,8 +363,7 @@ class Aigrisculteurs:
 
     def check_if_field_need_water(self: "Aigrisculteurs", field_id):
         if 1 <= field_id <= 5:
-            need_water = self.my_farm[FIELDS][field_id -
-                                              1].get(NEEDED_WATER) > 0
+            need_water = self.my_farm[FIELDS][field_id - 1].get(NEEDED_WATER) > 0
             if need_water and self.check_if_field_sown(field_id):
                 return True
             else:
@@ -453,8 +449,7 @@ class Aigrisculteurs:
             )
             if self.check_if_field_sown(int(place)):
                 self.water_field(worker_id, int(place))
-                logging.debug(
-                    f"WORKER STATUS: worker{worker_id} watered field{place}")
+                logging.debug(f"WORKER STATUS: worker{worker_id} watered field{place}")
             else:
                 logging.debug(
                     "WORKER STATUS: worker %d seeded %s on field %s",
@@ -509,16 +504,12 @@ class Aigrisculteurs:
             field_id,
             field_collectable,
         )
-
-
         if worker_available:
             if tractor_available:
                 if field_collectable:
-                    logging.debug(
-                        f"TRACTOR : {tractor_id} with worker{worker_id}")
+                    logging.debug(f"TRACTOR : {tractor_id} with worker{worker_id}")
                     if (
-                        self.tractor_data[tractor_id -
-                                          1].get(WORKER) == worker_id
+                        self.tractor_data[tractor_id - 1].get(WORKER) == worker_id
                         or self.tractor_data[tractor_id - 1].get(WORKER) is None
                     ) and self.tractor_data[tractor_id - 1][N_BUSY_DAY] == 0:
                         logging.debug(
@@ -528,15 +519,12 @@ class Aigrisculteurs:
                             1
                         ]
                         self.tractor_data[tractor_id - 1][WORKER] = worker_id
-                        self.set_number_of_busy_day_for_tractor(
-                            tractor_id, field_id)
-                        self.my_farm[FIELDS][field_id -
-                                             1]["already_collected"] = True
+                        self.set_number_of_busy_day_for_tractor(tractor_id, field_id)
+                        self.my_farm[FIELDS][field_id - 1]["already_collected"] = True
                         self.my_farm[FIELDS][field_id - 1][CONTENT] = "NONE"
 
                         self.worker_daily_task[f"worker{worker_id}"] = "STOCKER"
-                        self.add_command(
-                            f"{worker_id} STOCKER {field_id} {tractor_id}")
+                        self.add_command(f"{worker_id} STOCKER {field_id} {tractor_id}")
                 else:
                     logging.warning(f"FIELD {field_id} not collectable")
             else:
