@@ -1,3 +1,12 @@
+<div id="top"></div>
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Stargazers][stars-shield]][stars-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url-1]
+[![LinkedIn][linkedin-shield]][linkedin-url-2]
+[![LinkedIn][linkedin-shield]][linkedin-url-3]
+
 # Teams AigrisCulteurs 
 ###### Client for the Python game made by @vpoulailleau
 <div align="center">
@@ -120,5 +129,25 @@ Nous avons calculé le coût de revient réel pour une production de soupe de 5 
 En théorie nous pouvons donc obtenir au maximum sans intempérie ```8 633 109```
 ###### Pour voir le cacul merci de se référer au document suivant : [Documents/Benefices_Production_Soupe_Théorique](./Documents/Benefices_Production_Soupe_Théorique.xlsx)
 
+
+## Best score
 En local en suivant cette stratégie nous avons un record à : ```8 534 943```
 En réseau en suivant cette stratégie nous avons un record à : ```8 156 643```
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]:https://github.com/JulienCarayon/chronobio-client/contributors
+[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-url]: https://github.com/DorianFournier/Flappy-thon/stargazers
+[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url-1]: https://www.linkedin.com/in/dorian-fournier/
+[linkedin-url-2]: https://www.linkedin.com/in/dorian-fournier/
+[linkedin-url-3]: https://www.linkedin.com/in/dorian-fournier/
+
+
+
