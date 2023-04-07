@@ -71,6 +71,8 @@ class Aigrisculteurs:
             self.get_my_farm()
             self.day = self.game_data[DAY]
 
+            self.update_local_day()
+
             if self.local_day == 0:
                 self.new_day()
                 if self.day == 0:
@@ -102,6 +104,7 @@ class Aigrisculteurs:
                     workers_id_length=NUMBER_OF_COOKER,
                     place=FACTORY_SOUPE,
                 )
+                # if self.new_hiring_period == 0:
                 self.send_worker_to_place(
                     field_to_collect=1, worker_id=36, tractor_id=3
                 )
@@ -114,6 +117,7 @@ class Aigrisculteurs:
                     workers_id_length=22,
                     place=3,
                 )
+                # if self.new_hiring_period == 0:
                 self.send_worker_to_place(
                     field_to_collect=2, worker_id=37, tractor_id=4
                 )
@@ -209,7 +213,6 @@ class Aigrisculteurs:
                         self.send_worker_to_place(field_to_collect=2, tractor_id=2)
                         self.day_bool = True
 
-            # if self.actual_number_of_workers > 37 and self.local_day > 6:
             if self.local_day > 6:
                 self.send_group_to_place(
                     workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][3],
@@ -217,10 +220,7 @@ class Aigrisculteurs:
                     place=FACTORY_SOUPE,
                 )
 
-            self.update_local_day()
-
-            if self.day == 29:
-                logging.error(f"STOCK BOY {self.my_farm['soup_factory'][STOCK]}")
+            # self.update_local_day()
 
             if self.my_farm["blocked"] == True:
                 logging.error(f"GAME BLOCKED")
@@ -237,14 +237,17 @@ class Aigrisculteurs:
         self.worker_daily_task_new_day()
         self.update_number_of_busy_day_for_tractor()
         self.update_tractor_position()
-        # self.update_local_day()
         logging.info(f"--DAY {self.game_data['day']}--{self.game_data}")
 
     def update_local_day(self: "Aigrisculteurs"):
-        if self.day > 0 and self.day % LAYOFF_DAY == 0:
+        logging.debug(f"1 : {self.day} / 2 : {self.day % LAYOFF_DAY}")
+        if self.day > 0 and (self.day % LAYOFF_DAY) == 0:
+            logging.error(f"At day {self.day} / {self.local_day}")
             self.local_day = 0
             self.fire_workers()
             self.new_hiring_period += 1
+        elif self.day == 0:
+            return
         else:
             self.local_day += 1
 
@@ -279,6 +282,9 @@ class Aigrisculteurs:
             self.add_command(f"0 VENDRE {field_id}")
         else:
             raise ValueError(f"Field not in range 1 - 5 : {field_id}")
+
+    def check_soup_factory_status(self: "Aigrisculteurs"):
+        pass
 
     def buy_fields(self: "Aigrisculteurs", n_fields_to_buy: int):
         if (n_fields_to_buy > MAXIMUM_FIELDS_NUMBER) or (
