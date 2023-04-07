@@ -216,7 +216,8 @@ class Aigrisculteurs:
                         place=4,
                     )
                     self.send_worker_to_place(field_to_collect=3, tractor_id=3)
-                    self.send_worker_to_place(field_to_collect=5, tractor_id=4)
+                    if self.flag_help_cooker is False:
+                        self.send_worker_to_place(field_to_collect=5, tractor_id=4)
                     if self.day_bool is True:
                         self.send_group_to_place(
                             workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][0],
