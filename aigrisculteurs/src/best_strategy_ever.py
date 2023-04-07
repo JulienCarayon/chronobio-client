@@ -286,9 +286,9 @@ class Aigrisculteurs:
 
     def go_to_cook(self: "Aigrisculteurs"):
         vegetable_stock = self.get_vegetables_stock()
-        if 20_000 < min(vegetable_stock.values()):
+        if self.flag_help_cooker is False and 20_000 < min(vegetable_stock.values()):
             self.flag_help_cooker = True
-        else:
+        elif self.flag_help_cooker is True and 4000 > min(vegetable_stock.values()):
             self.flag_help_cooker = False
 
     def sell_field(self: "Aigrisculteurs", field_id=0):
