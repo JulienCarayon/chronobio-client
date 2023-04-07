@@ -363,6 +363,7 @@ class Aigrisculteurs:
 
     def check_if_field_collectable(self: "Aigrisculteurs", field_id):
         is_bought = self.my_farm[FIELDS][field_id - 1].get("bought")
+        is_bought = self.my_farm[FIELDS][field_id - 1].get("bought")
         if (
             (
                 self.check_if_field_sown(field_id)
@@ -485,7 +486,7 @@ class Aigrisculteurs:
         field_collectable = self.check_if_field_collectable(field_id)
         # field_disaster = self.check_field_disaster(field_id)
         logging.debug(
-            "worker_available %d:%s|tractor_available %d:%s %|field_collectable %d:%s",
+            "worker_available %d:%s:tractor_available %d:%s %:field_collectable %d:%s",
             worker_id,
             worker_available,
             tractor_id,
@@ -553,11 +554,7 @@ class Aigrisculteurs:
         )
         if tractor_id <= self.actual_number_of_tractors:
             logging.error(self.tractor_data[tractor_id - 1])
-            if (
-                self.tractor_data[tractor_id - 1][LOCATION] == FACTORY_STOCK[1]
-                or self.tractor_data[tractor_id - 1][LOCATION] == FARM
-                # or self.tractor_data[tractor_id - 1][N_BUSY_DAY] == 0
-            ):
+            if self.tractor_data[tractor_id - 1][N_BUSY_DAY] == 0:
                 return True
         else:
             logging.warning(
