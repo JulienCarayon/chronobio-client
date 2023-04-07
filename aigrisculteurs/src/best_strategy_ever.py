@@ -21,6 +21,7 @@ from src.constants import (
     VEGETABLES,
     WORKER_ID_INDEX,
     NUMBER_OF_COOKER,
+    LOAN_AMOUNT,
 )
 
 logging.basicConfig(
@@ -79,7 +80,7 @@ class Aigrisculteurs:
             if self.local_day == 0:
                 self.new_day()
                 if self.day == 0:
-                    self.do_bank_loan(69_970)
+                    self.do_bank_loan(LOAN_AMOUNT)
                     self.buy_fields(5)
                     self.buy_tractors(4)
                     self.hiring_workers(37)
@@ -107,10 +108,10 @@ class Aigrisculteurs:
                     workers_id_length=NUMBER_OF_COOKER,
                     place=FACTORY_SOUPE,
                 )
-                # if self.new_hiring_period == 0:
-                self.send_worker_to_place(
-                    field_to_collect=1, worker_id=36, tractor_id=3
-                )
+                if not self.new_hiring_period > 0:
+                    self.send_worker_to_place(
+                        field_to_collect=1, worker_id=36, tractor_id=3
+                    )
 
             elif self.local_day == 2:
                 self.new_day()
@@ -120,10 +121,10 @@ class Aigrisculteurs:
                     workers_id_length=22,
                     place=3,
                 )
-                # if self.new_hiring_period == 0:
-                self.send_worker_to_place(
-                    field_to_collect=2, worker_id=37, tractor_id=4
-                )
+                if self.new_hiring_period == 0:
+                    self.send_worker_to_place(
+                        field_to_collect=2, worker_id=37, tractor_id=4
+                    )
 
             elif self.local_day == 3:
                 self.new_day()
@@ -137,9 +138,10 @@ class Aigrisculteurs:
                     workers_id_length=22,
                     place=4,
                 )
-                self.send_worker_to_place(
-                    field_to_collect=3, worker_id=34, tractor_id=1
-                )
+                if self.new_hiring_period == 0:
+                    self.send_worker_to_place(
+                        field_to_collect=3, worker_id=34, tractor_id=1
+                    )
             elif self.local_day == 4:
                 self.new_day()
                 self.send_group_to_place(
@@ -157,10 +159,11 @@ class Aigrisculteurs:
                     workers_id_length=11,
                     place=5,
                 )
-                self.send_worker_to_place(
-                    field_to_collect=1, worker_id=35, tractor_id=2
-                )
-                self.send_worker_to_place(field_to_collect=4, tractor_id=4)
+                if self.new_hiring_period == 0:
+                    self.send_worker_to_place(
+                        field_to_collect=1, worker_id=35, tractor_id=2
+                    )
+                    self.send_worker_to_place(field_to_collect=4, tractor_id=4)
 
             elif self.local_day == 5:
                 self.new_day()
@@ -170,9 +173,10 @@ class Aigrisculteurs:
                     workers_id_length=11,
                     place=4,
                 )
-                self.send_worker_to_place(field_to_collect=2, tractor_id=1)
-                self.send_worker_to_place(field_to_collect=3, tractor_id=3)
-                self.send_worker_to_place(field_to_collect=5, tractor_id=4)
+                if self.new_hiring_period == 0:
+                    self.send_worker_to_place(field_to_collect=2, tractor_id=1)
+                    self.send_worker_to_place(field_to_collect=3, tractor_id=3)
+                    self.send_worker_to_place(field_to_collect=5, tractor_id=4)
 
             if self.my_farm["blocked"] is False:
                 if self.local_day > 5 and self.local_day % 2 == 0:
@@ -223,7 +227,8 @@ class Aigrisculteurs:
                     place=FACTORY_SOUPE,
                 )
 
-            # self.update_local_day()
+            if self.day == 30:
+                logging.info(f"STOCK BOY : {self.my_farm[FACTORY_SOUPE[0]][STOCK]}")
 
             if self.my_farm["blocked"] is True:
                 logging.error("GAME BLOCKED")
@@ -243,7 +248,6 @@ class Aigrisculteurs:
         logging.info(f"--DAY {self.game_data['day']}--{self.game_data}")
 
     def update_local_day(self: "Aigrisculteurs"):
-        logging.debug(f"1 : {self.day} / 2 : {self.day % LAYOFF_DAY}")
         if self.day > 0 and (self.day % LAYOFF_DAY) == 0:
             logging.error(f"At day {self.day} / {self.local_day}")
             self.local_day = 0
@@ -270,8 +274,6 @@ class Aigrisculteurs:
                 logging.warning(f"Worker id to fire : {worker_id}")
                 if worker_id not in id_worker_on_tractor:
                     self.add_command(f"0 LICENCIER {worker_id}")
-                    # self.add_command(f"0 LICENCIER {worker_id.get('id')}")
-
         logging.info(
             f"NUMBER OF WORKER AFTER LAYOFF DAY : {self.actual_number_of_workers}"
         )
@@ -481,6 +483,7 @@ class Aigrisculteurs:
         worker_available = self.check_worker_availability(worker_id) is True
         tractor_available = self.check_if_tractor_available(tractor_id) is True
         field_collectable = self.check_if_field_collectable(field_id)
+        # field_disaster = self.check_field_disaster(field_id)
         logging.debug(
             "worker_available %d:%s|tractor_available %d:%s %|field_collectable %d:%s",
             worker_id,
