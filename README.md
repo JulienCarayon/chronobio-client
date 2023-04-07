@@ -219,5 +219,6 @@ En théorie nous pouvons donc obtenir au maximum sans intempérie ```8 633 109``
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url-1]: https://www.linkedin.com/in/dorian-fournier/
-[linkedin-url-2]: https://www.linkedin.com/in/dorian-fournier/
-[linkedin-url-3]: https://www.linkedin.com/in/dorian-fournier/
+[linkedin-url-2]: https://www.linkedin.com/in/julien-carayon/
+[linkedin-url-3]: https://www.linkedin.com/in/jordan-clement-68b39019a/
+

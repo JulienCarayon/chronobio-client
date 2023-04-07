@@ -54,6 +54,7 @@ class Aigrisculteurs:
         self.testing = False
         self.day_bool = True
         self.local_day = 0
+        self.flag_help_cooker = False
         self.new_hiring_period = 0
 
     def get_my_farm(self: "Aigrisculteurs", my_farm_name: str = "aigrisculteurs"):
@@ -186,11 +187,18 @@ class Aigrisculteurs:
                         workers_id_length=11,
                         place=3,
                     )
-                    self.send_group_to_place(
-                        workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][2],
-                        workers_id_length=11,
-                        place=5,
-                    )
+                    if self.flag_help_cooker is True:
+                        self.send_group_to_place(
+                            workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][2],
+                            workers_id_length=NUMBER_OF_COOKER,
+                            place=FACTORY_SOUPE,
+                        )
+                    else:
+                        self.send_group_to_place(
+                            workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][2],
+                            workers_id_length=11,
+                            place=5,
+                        )
                     self.send_worker_to_place(field_to_collect=4, tractor_id=3)
                     if self.local_day > 6 and self.local_day % 4 != 2:
                         self.send_group_to_place(
@@ -227,9 +235,6 @@ class Aigrisculteurs:
                     place=FACTORY_SOUPE,
                 )
 
-            if self.day == 30:
-                logging.info(f"STOCK BOY : {self.my_farm[FACTORY_SOUPE[0]][STOCK]}")
-
             if self.my_farm["blocked"] is True:
                 logging.error("GAME BLOCKED")
 
@@ -245,6 +250,7 @@ class Aigrisculteurs:
         self.worker_daily_task_new_day()
         self.update_number_of_busy_day_for_tractor()
         self.update_tractor_position()
+        self.go_to_cook()
         logging.info(f"--DAY {self.game_data['day']}--{self.game_data}")
 
     def update_local_day(self: "Aigrisculteurs"):
@@ -278,14 +284,18 @@ class Aigrisculteurs:
             f"NUMBER OF WORKER AFTER LAYOFF DAY : {self.actual_number_of_workers}"
         )
 
+    def go_to_cook(self: "Aigrisculteurs"):
+        vegetable_stock = self.get_vegetables_stock()
+        if 50_000 < min(vegetable_stock.values()):
+            self.flag_help_cooker = True
+        else:
+            self.flag_help_cooker = False
+
     def sell_field(self: "Aigrisculteurs", field_id=0):
         if 1 <= field_id <= MAXIMUM_FIELDS_NUMBER:
             self.add_command(f"0 VENDRE {field_id}")
         else:
             raise ValueError(f"Field not in range 1 - 5 : {field_id}")
-
-    def check_soup_factory_status(self: "Aigrisculteurs"):
-        pass
 
     def buy_fields(self: "Aigrisculteurs", n_fields_to_buy: int):
         if (n_fields_to_buy > MAXIMUM_FIELDS_NUMBER) or (
@@ -494,7 +504,6 @@ class Aigrisculteurs:
             field_id,
             field_collectable,
         )
-
         if worker_available:
             if tractor_available:
                 if field_collectable:
