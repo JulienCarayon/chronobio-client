@@ -190,14 +190,14 @@ class Aigrisculteurs:
                     if self.flag_help_cooker is True:
                         self.send_group_to_place(
                             workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][2],
-                            workers_id_length=11,
-                            place=5,
+                            workers_id_length=NUMBER_OF_COOKER,
+                            place=FACTORY_SOUPE,
                         )
                     else:
                         self.send_group_to_place(
-                            workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][3],
-                            workers_id_length=NUMBER_OF_COOKER,
-                            place=FACTORY_SOUPE,
+                            workers_id_start=WORKER_ID_INDEX[self.new_hiring_period][2],
+                            workers_id_length=11,
+                            place=5,
                         )
                     self.send_worker_to_place(field_to_collect=4, tractor_id=3)
                     if self.local_day > 6 and self.local_day % 4 != 2:
@@ -292,7 +292,7 @@ class Aigrisculteurs:
 
     def go_to_cook(self: "Aigrisculteurs"):
         vegetable_stock = self.get_vegetables_stock()
-        if min(vegetable_stock.values()) > 50_000:
+        if 50_000 < min(vegetable_stock.values()):
             self.flag_help_cooker = True
         else:
             self.flag_help_cooker = False
@@ -503,15 +503,15 @@ class Aigrisculteurs:
         tractor_available = self.check_if_tractor_available(tractor_id) is True
         field_collectable = self.check_if_field_collectable(field_id)
         # field_disaster = self.check_field_disaster(field_id)
-        logging.debug(
-            "worker_available %d:%s|tractor_available %d:%s %|field_collectable %d:%s",
-            worker_id,
-            worker_available,
-            tractor_id,
-            tractor_available,
-            field_id,
-            field_collectable,
-        )
+        # logging.debug(
+        #     "worker_available %d:%s -- tractor_available %d:%s % --field_collectable %d:%s",
+        #     worker_id,
+        #     worker_available,
+        #     tractor_id,
+        #     tractor_available,
+        #     field_id,
+        #     field_collectable,
+        # )
 
         if worker_available:
             if tractor_available:
