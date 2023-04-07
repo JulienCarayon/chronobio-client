@@ -1,21 +1,40 @@
 # Teams AigrisCulteurs 
-##### Client for the Python game made by @vpoulailleau
+###### Client for the Python game made by @vpoulailleau
 <div align="center">
   </br>
   <img src="Documents/Image/aigriculteur.png" alt="Game name" width="600">
   </br></br>
 </div>
 
-#### Petit jeu: Trouvez les 5 soupes !!!!
+> Petit jeu: Trouvez les 5 soupes !!!!
+
+## Travail en local
+
+### Prérequis 
+1. installer un environnement virtuel : ```python -m venv venv```
+2. avoir un esprit compétitif, et être un BG aigrisculteur
+
+### Lancer la simulation
+1. se placer dans le dossier chronobio
+2. activer un environnement virtuel : ```source venv/bin/activate``` 
+> l'indication ```(venv)``` apparaît à gauche du prompt
+3. lancer le script 'competition.sh' :  ```./competition.sh```
+
+### Stopper la simulation
+- attendre la fin de la simulation
+
+ou
+
+- se placer dans le dossier chronobio et lancer le script 'killal.py' : ```python killal.py```
 
 ## Mise en place des tests
+
+De l'integration continue à été effectuée sur les codes sources du projet afin de s'assurer 
 #### Intaller pytest sur votre machine
 Travailler sur l'environnement virtuel : ```python -m venv venv```
 
 #### Installation de pytest :
 ```pip install -u pytest```
-
-## Run le projet
 
 ## Pré-commit
 Des pre-commit sont disponibles au sein de projet, dans le but de vérifier certains éléments avant la mise à jour sur le projet au global.
@@ -36,8 +55,8 @@ Nous avons opté pour un achat des 5 champ soit une dépense de 50 000€ et un 
 
 ### Gestion des employés
 Pour la gestion des employés nous avons opté pour la stratégie suivante:
-- Licenciement le 28 du mois
-- Embauche le 29 du mois 
+- Licenciement le 29 du mois 
+- Embauche le 29 du mois --> employés présent le jour 0
 
 ### Gestion des licenciement
 Pour la gestion des licenciements nous avons fait une simulation sur plusieurs durées tels que 6 mois, 7 mois, 1an, 2ans...
@@ -88,8 +107,8 @@ Les 8 cuisiniers produisent en permanence des soupes.
 
 ### Gestion de la production soupe
 Dans un premier temps nous avons déterminer le nombre de légumes qu'on arrive à stocker au moins. Afin de pouvoir déterminer au mieux le nombre d'meployé nécessaire.
-Pour notre groupe nous produisons :```98000 légumes```
-Soit pour une production de soupe de 5 légumes une consommation de ```19600 légumes``` nous avons donc une nécessité de 8 employés :
+Pour notre groupe nous produisons :```106 000 légumes```
+Soit pour une production de soupe de 5 légumes une consommation de ```21 200 légumes``` nous avons donc une nécessité de 8 employés :
 
 | nb employés |     production soupe 1 jour     |    Production soupe 1 mois    | 
 |-------------|---------------------------------|-------------------------------|
